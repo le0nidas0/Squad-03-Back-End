@@ -1,5 +1,6 @@
 package com.example.squad03.dto;
 
+import com.example.squad03.enums.StatusContrato;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -24,6 +25,10 @@ public class ContratoCreateDTO {
     @NotNull
     @Schema(description = "ID do representante da empresa contratada", example = "3")
     private Long representanteId;
+
+    @Schema(description = "Status do contrato no momento da criação", example = "ATIVO", allowableValues = {"ATIVO", "INATIVO", "ENCERRADO"})
+    @NotNull
+    private StatusContrato status;
 
     @NotNull
     @Schema(description = "Prazo de vigência do contrato", example = "2025-12-31")

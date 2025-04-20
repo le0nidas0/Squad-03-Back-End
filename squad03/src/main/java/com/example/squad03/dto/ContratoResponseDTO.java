@@ -1,5 +1,6 @@
 package com.example.squad03.dto;
 
+import com.example.squad03.enums.StatusContrato;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,8 +23,8 @@ public class ContratoResponseDTO {
     @Schema(description = "Valor total do contrato", example = "10000.00")
     private BigDecimal valor;
 
-    @Schema(description = "Status atual do contrato", example = "Ativo")
-    private String status;
+    @Schema(description = "Status atual do contrato", example = "ATIVO", allowableValues = {"ATIVO", "INATIVO", "ENCERRADO"})
+    private StatusContrato status;
 
     @Schema(description = "Data de criação do contrato", example = "2025-01-01T12:00:00")
     private LocalDateTime criadoEm;
