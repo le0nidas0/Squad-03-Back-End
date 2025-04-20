@@ -1,4 +1,5 @@
 package com.example.squad03.model;
+import com.example.squad03.enums.StatusContrato;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,10 +21,12 @@ public class Contrato {
 
     private LocalDate prazo;
     private BigDecimal valor;
-    private String status;
 
     @Column(name = "criado_em")
     private LocalDateTime criadoEm;
+
+    @Enumerated(EnumType.STRING)
+    private StatusContrato status;
 
     @ManyToOne
     @JoinColumn(name = "orgao_contratante_id")
