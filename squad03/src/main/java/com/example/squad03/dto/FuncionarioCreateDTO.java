@@ -11,22 +11,22 @@ import lombok.Setter;
 public class FuncionarioCreateDTO {
 
     @NotBlank
-    @Schema(description = "Nome do funcionário", example = "João da Silva")
+    @Schema(description = "Nome do funcionário", example = "João Silva")
     private String nome;
 
     @NotBlank
-    @Schema(description = "Cargo ocupado pelo funcionário", example = "Gerente de Contratos")
-    private String cargo;
-
-    @NotBlank
-    @Schema(description = "Telefone do funcionário (não exposto ao front)", example = "(81) 99999-9999", accessMode = Schema.AccessMode.WRITE_ONLY)
-    private String telefone;
-
-    @NotBlank
-    @Schema(description = "E-mail do funcionário (não exposto ao front)", example = "joao.silva@empresa.com", accessMode = Schema.AccessMode.WRITE_ONLY)
+    @Schema(description = "Email do funcionário", example = "joao.silva@email.com")
     private String email;
 
     @NotBlank
-    @Schema(description = "CPF do funcionário (não exposto ao front)", example = "123.456.789-00", accessMode = Schema.AccessMode.WRITE_ONLY)
+    @Schema(description = "CPF do funcionário", example = "123.456.789-00")
     private String cpf;
+
+    @NotBlank
+    @Schema(description = "Cargo do funcionário", example = "Gerente de Contratos")
+    private String cargo;
+
+    @NotBlank
+    @Schema(description = "Telefone do funcionário", example = "(81) 91234-5678")
+    private String telefone;
 }

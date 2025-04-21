@@ -6,13 +6,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Schema(description = "Dados de retorno de um Funcionário (sem dados sensíveis)")
+@Schema(description = "Dados de retorno de um Funcionário")
 public class FuncionarioResponseDTO {
 
     @Schema(description = "ID do funcionário", example = "1")
-    private Long id;
+    private Long idFuncionario;
 
-    @Schema(description = "Nome do funcionário", example = "João da Silva")
+    @Schema(description = "Nome do funcionário", example = "João Silva")
     private String nome;
 
     @Schema(description = "Cargo do funcionário", example = "Gerente de Contratos")
