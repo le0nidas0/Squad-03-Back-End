@@ -31,7 +31,7 @@ public class ContratoMapper {
         dto.setIdContrato(contrato.getIdContrato());
         dto.setPrazo(contrato.getPrazo());
         dto.setValor(contrato.getValor());
-        dto.setStatus(contrato.getStatus()); // agora retorna um enum
+        dto.setStatus(contrato.getStatus());
         dto.setCriadoEm(contrato.getCriadoEm());
         return dto;
     }

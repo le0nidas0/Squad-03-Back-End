@@ -27,6 +27,6 @@ public class FuncionarioCreateDTO {
     private String cargo;
 
     @NotBlank
-    @Schema(description = "Telefone do funcionário", example = "(81) 91234-5678")
+    @Schema(description = "Telefone do funcionário", example = "(79) 91234-5678")
     private String telefone;
 }

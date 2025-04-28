@@ -1,5 +1,6 @@
 package com.example.squad03.dto;
 
+import com.example.squad03.enums.StatusContrato;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -20,6 +21,9 @@ public class ContratoCreateDTO {
     @NotNull
     @Schema(description = "Valor do contrato", example = "100000.00")
     private BigDecimal valor;
+
+    @Schema(description = "Status do contrato", example = "ATIVO", allowableValues = {"ATIVO", "INATIVO", "ENCERRADO"})
+    private StatusContrato status;
 
     @NotNull
     @Schema(description = "ID do órgão contratante")
