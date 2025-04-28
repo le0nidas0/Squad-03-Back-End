@@ -1,4 +1,5 @@
 package com.example.squad03.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,6 +34,7 @@ public class OrgaoContratante {
     private String emailRepresentante;
 
     @OneToMany(mappedBy = "orgaoContratante")
+    @JsonIgnore
     private List<Contrato> contratos;
 }
 
