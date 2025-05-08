@@ -1,5 +1,6 @@
 package com.example.squad03.repository;
 
+import com.example.squad03.enums.StatusContrato;
 import com.example.squad03.model.Contrato;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -15,5 +16,5 @@ public interface ContratoRepository extends JpaRepository<Contrato, Long> {
 
     List<Contrato> findByRepresentante_IdFuncionario(Long idFuncionario);
 
-    List<Contrato> findByStatus(String status);
+    List<Contrato> findByStatus(StatusContrato statusContrato);
 }

@@ -61,14 +61,22 @@ public class ContratoController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "Deletar um contrato por id")
+    @Operation(summary = "Contrato arquivado com sucesso")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Contrato deletado com sucesso"),
+            @ApiResponse(responseCode = "204", description = "Contrato arquivado com sucesso"),
             @ApiResponse(responseCode = "404", description = "Contrato não encontrado")
     })
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        service.deletar(id);
+    @PatchMapping("/{id}/arquivar")
+    public ResponseEntity<Void> arquivarContrato(@PathVariable Long id) {
+        service.arquivarContrato(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/arquivados")
+    @Operation(summary = "Listar contratos arquivados")
+    public ResponseEntity<List<ContratoResponseDTO>> listarArquivados() {
+        List<ContratoResponseDTO> dtos = service.listarContratosArquivados();
+        return ResponseEntity.ok(dtos);
+    }
+
 }

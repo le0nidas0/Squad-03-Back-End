@@ -33,5 +33,6 @@ public class Funcionario {
 
     @OneToMany(mappedBy = "representante")
     private List<Contrato> contratoRepresentantes;
+
 }
 

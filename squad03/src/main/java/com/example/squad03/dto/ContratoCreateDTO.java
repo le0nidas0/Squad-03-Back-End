@@ -22,6 +22,7 @@ public class ContratoCreateDTO {
     @Schema(description = "Valor do contrato", example = "100000.00")
     private BigDecimal valor;
 
+    @NotNull
     @Schema(description = "Status do contrato", example = "ATIVO", allowableValues = {"ATIVO", "INATIVO", "ENCERRADO"})
     private StatusContrato status;
 

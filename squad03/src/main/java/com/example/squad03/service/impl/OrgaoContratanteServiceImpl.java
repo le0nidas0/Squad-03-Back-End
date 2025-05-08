@@ -26,19 +26,7 @@ public class OrgaoContratanteServiceImpl implements OrgaoContratanteService {
             throw new IllegalArgumentException("CNPJ inválido");
         }
 
-        OrgaoContratante orgao = new OrgaoContratante();
-        orgao.setNome(dto.getNome());
-        orgao.setCnpj(dto.getCnpj());
-        orgao.setNomeFantasia(dto.getNomeFantasia());
-        orgao.setRazaoSocial(dto.getRazaoSocial());
-        orgao.setNumeroEmpresa(dto.getNumeroEmpresa());
-        orgao.setEstado(dto.getEstado());
-        orgao.setCidade(dto.getCidade());
-        orgao.setNomeRepresentante(dto.getNomeRepresentante());
-        orgao.setCpfResponsavel(dto.getCpfResponsavel());
-        orgao.setNumeroRepresentante(dto.getNumeroRepresentante());
-        orgao.setEmailRepresentante(dto.getEmailRepresentante());
-
+        OrgaoContratante orgao = OrgaoContratanteMapper.toEntity(dto);
         orgao = repository.save(orgao);
         return OrgaoContratanteMapper.toDTO(orgao);
     }
@@ -59,27 +47,22 @@ public class OrgaoContratanteServiceImpl implements OrgaoContratanteService {
 
     @Override
     public OrgaoContratanteResponseDTO atualizar(Long id, OrgaoContratanteCreateDTO dto) {
-        OrgaoContratante orgao = repository.findById(id)
+        OrgaoContratante existente = repository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Órgão contratante não encontrado com ID " + id));
 
-        if (!ValidadorDocumentoUtil.isCnpjValido(dto.getCnpj())) {
-            throw new IllegalArgumentException("CNPJ inválido");
-        }
+        existente.setNome(dto.getNome());
+        existente.setNomeFantasia(dto.getNomeFantasia());
+        existente.setRazaoSocial(dto.getRazaoSocial());
+        existente.setCnpj(dto.getCnpj());
+        existente.setNumeroEmpresa(dto.getNumeroEmpresa());
+        existente.setEstado(dto.getEstado());
+        existente.setCidade(dto.getCidade());
+        existente.setNomeRepresentante(dto.getNomeRepresentante());
+        existente.setCpfRepresentante(dto.getCpfRepresentante());
+        existente.setEmailRepresentante(dto.getEmailRepresentante());
+        existente.setNumeroRepresentante(dto.getNumeroRepresentante());
 
-        orgao.setNome(dto.getNome());
-        orgao.setCnpj(dto.getCnpj());
-        orgao.setNomeFantasia(dto.getNomeFantasia());
-        orgao.setRazaoSocial(dto.getRazaoSocial());
-        orgao.setNumeroEmpresa(dto.getNumeroEmpresa());
-        orgao.setEstado(dto.getEstado());
-        orgao.setCidade(dto.getCidade());
-        orgao.setNomeRepresentante(dto.getNomeRepresentante());
-        orgao.setCpfResponsavel(dto.getCpfResponsavel());
-        orgao.setNumeroRepresentante(dto.getNumeroRepresentante());
-        orgao.setEmailRepresentante(dto.getEmailRepresentante());
-
-        orgao = repository.save(orgao);
-        return OrgaoContratanteMapper.toDTO(orgao);
+        return OrgaoContratanteMapper.toDTO(existente);
     }
 
     @Override
@@ -88,5 +71,4 @@ public class OrgaoContratanteServiceImpl implements OrgaoContratanteService {
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Órgão contratante não encontrado com ID " + id));
         repository.delete(orgao);
     }
-
 }

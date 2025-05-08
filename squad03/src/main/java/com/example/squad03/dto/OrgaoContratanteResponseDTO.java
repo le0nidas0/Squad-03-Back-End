@@ -10,7 +10,7 @@ import lombok.Setter;
 public class OrgaoContratanteResponseDTO {
 
     @Schema(description = "ID do órgão contratante", example = "1")
-    private Long id;
+    private Long idOrgao;
 
     @Schema(description = "Nome do órgão contratante", example = "Prefeitura Municipal de Sergipe")
     private String nome;
@@ -29,4 +29,6 @@ public class OrgaoContratanteResponseDTO {
 
     @Schema(description = "Cidade do órgão contratante", example = "Sergipe")
     private String cidade;
+
+    private String nomeRepresentante;
 }

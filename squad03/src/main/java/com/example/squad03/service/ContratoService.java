@@ -13,7 +13,9 @@ public interface ContratoService {
 
     List<ContratoResponseDTO> listarTodos();
 
-    void deletar(Long id);
-
     ContratoResponseDTO atualizar(Long id, ContratoCreateDTO dto);
+
+    List<ContratoResponseDTO> listarContratosArquivados();
+
+    void arquivarContrato(Long id);
 }

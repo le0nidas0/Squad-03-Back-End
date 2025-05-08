@@ -21,15 +21,8 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
     @Override
     public FuncionarioResponseDTO criar(FuncionarioCreateDTO dto) {
-        Funcionario funcionario = new Funcionario();
-        funcionario.setNome(dto.getNome());
-        funcionario.setEmail(dto.getEmail());
-        funcionario.setCpf(dto.getCpf());
-        funcionario.setCargo(dto.getCargo());
-        funcionario.setTelefone(dto.getTelefone());
-
+        Funcionario funcionario = FuncionarioMapper.toEntity(dto);
         funcionario = funcionarioRepository.save(funcionario);
-
         return FuncionarioMapper.toDTO(funcionario);
     }
 
@@ -45,7 +38,6 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     public FuncionarioResponseDTO buscarPorId(Long id) {
         Funcionario funcionario = funcionarioRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Funcionário não encontrado com ID " + id));
-
         return FuncionarioMapper.toDTO(funcionario);
     }
 
@@ -53,7 +45,6 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     public void deletar(Long id) {
         Funcionario funcionario = funcionarioRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Funcionário não encontrado com ID " + id));
-
         funcionarioRepository.delete(funcionario);
     }
 

@@ -8,7 +8,7 @@ public class OrgaoContratanteMapper {
 
     public static OrgaoContratanteResponseDTO toDTO(OrgaoContratante entity) {
         OrgaoContratanteResponseDTO dto = new OrgaoContratanteResponseDTO();
-        dto.setId(entity.getIdOrgao());
+        dto.setIdOrgao(entity.getIdOrgao());
         dto.setNome(entity.getNome());
         dto.setNomeFantasia(entity.getNomeFantasia());
         dto.setRazaoSocial(entity.getRazaoSocial());
@@ -27,10 +27,13 @@ public class OrgaoContratanteMapper {
         entity.setNumeroEmpresa(dto.getNumeroEmpresa());
         entity.setEstado(dto.getEstado());
         entity.setCidade(dto.getCidade());
-        entity.setNomeRepresentante(dto.getNomeRepresentante());
-        entity.setCpfResponsavel(dto.getCpfResponsavel());
+
+
+        entity.setNome(dto.getNomeRepresentante());
+        entity.setCpfRepresentante(dto.getCpfRepresentante());
         entity.setNumeroRepresentante(dto.getNumeroRepresentante());
         entity.setEmailRepresentante(dto.getEmailRepresentante());
+
         return entity;
     }
 }
