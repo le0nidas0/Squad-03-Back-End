@@ -62,6 +62,8 @@ public class OrgaoContratanteServiceImpl implements OrgaoContratanteService {
         existente.setEmailRepresentante(dto.getEmailRepresentante());
         existente.setNumeroRepresentante(dto.getNumeroRepresentante());
 
+        existente = repository.save(existente);
+
         return OrgaoContratanteMapper.toDTO(existente);
     }
 

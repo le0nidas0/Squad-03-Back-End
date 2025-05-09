@@ -15,6 +15,7 @@ public class OrgaoContratanteMapper {
         dto.setNumeroEmpresa(entity.getNumeroEmpresa());
         dto.setEstado(entity.getEstado());
         dto.setCidade(entity.getCidade());
+        dto.setNomeRepresentante(entity.getNomeRepresentante()); // Adicione esta linha
         return dto;
     }
 
@@ -27,13 +28,10 @@ public class OrgaoContratanteMapper {
         entity.setNumeroEmpresa(dto.getNumeroEmpresa());
         entity.setEstado(dto.getEstado());
         entity.setCidade(dto.getCidade());
-
-
-        entity.setNome(dto.getNomeRepresentante());
+        entity.setNomeRepresentante(dto.getNomeRepresentante());
         entity.setCpfRepresentante(dto.getCpfRepresentante());
         entity.setNumeroRepresentante(dto.getNumeroRepresentante());
         entity.setEmailRepresentante(dto.getEmailRepresentante());
-
         return entity;
     }
 }
