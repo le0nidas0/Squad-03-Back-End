@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    build: .
+    build: squad03
     container_name: getinfo
     ports:
       - "8080:8080"
