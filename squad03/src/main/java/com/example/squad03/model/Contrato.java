@@ -40,7 +40,9 @@ public class Contrato {
     @JoinColumn(name = "id_representante")
     private Funcionario representante;
 
-    @OneToMany(mappedBy = "contrato")
+
+/*
+ @OneToMany(mappedBy = "contrato")
     private List<Entregavel> entregaveis;
 
     @OneToMany(mappedBy = "contrato")
@@ -50,5 +52,5 @@ public class Contrato {
     private List<Notificacao> notificacoes;
 
     @OneToMany(mappedBy = "contrato")
-    private List<Documento> documentos;
+    private List<Documento> documentos;*/
 }

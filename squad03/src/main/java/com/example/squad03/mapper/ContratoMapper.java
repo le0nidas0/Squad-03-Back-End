@@ -7,22 +7,18 @@ import com.example.squad03.model.Contrato;
 import com.example.squad03.model.Funcionario;
 import com.example.squad03.model.OrgaoContratante;
 
-
 import java.time.LocalDateTime;
 
 public class ContratoMapper {
 
-    public static Contrato toEntity(ContratoCreateDTO dto, OrgaoContratante orgao, Funcionario responsavel, Funcionario representante) {
+    public static Contrato toEntity(ContratoCreateDTO dto, OrgaoContratante orgao, Funcionario responsavel) {
         Contrato contrato = new Contrato();
         contrato.setPrazo(dto.getPrazo());
         contrato.setValor(dto.getValor());
-
         contrato.setStatus(dto.getStatus() != null ? dto.getStatus() : StatusContrato.ATIVO);
-
         contrato.setCriadoEm(LocalDateTime.now());
         contrato.setOrgaoContratante(orgao);
         contrato.setResponsavel(responsavel);
-        contrato.setRepresentante(representante);
         return contrato;
     }
 
@@ -31,8 +27,10 @@ public class ContratoMapper {
         dto.setIdContrato(contrato.getIdContrato());
         dto.setPrazo(contrato.getPrazo());
         dto.setValor(contrato.getValor());
-        dto.setStatus(contrato.getStatus()); // agora retorna um enum
+        dto.setStatus(contrato.getStatus());
         dto.setCriadoEm(contrato.getCriadoEm());
+        dto.setOrgaoContratante(OrgaoContratanteMapper.toDTO(contrato.getOrgaoContratante()));
+        dto.setResponsavel(FuncionarioMapper.toDTO(contrato.getResponsavel()));
         return dto;
     }
 }

@@ -1,11 +1,14 @@
 package com.example.squad03.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.List;
 
-@Table(name = "orgao_contratante")
 @Entity(name = "OrgaoContratante")
+@Table(name = "orgao_contratante")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -26,13 +29,15 @@ public class OrgaoContratante {
     private String numeroEmpresa;
     private String estado;
     private String cidade;
-
     private String nomeRepresentante;
-    private String cpfResponsavel;
+    private String cpfRepresentante;
     private String numeroRepresentante;
     private String emailRepresentante;
 
+
     @OneToMany(mappedBy = "orgaoContratante")
+    @JsonIgnore
     private List<Contrato> contratos;
 }
+
 
