@@ -42,7 +42,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             UserDetails userDetails = userRepository.findByEmail(username)
                     .map(user -> org.springframework.security.core.userdetails.User
                             .withUsername(user.getEmail())
-                            .password(user.getPassword())
+                            .password(user.getSenha())
                             .authorities("USER")
                             .build())
                     .orElseThrow();

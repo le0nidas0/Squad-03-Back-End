@@ -1,6 +1,5 @@
 package com.example.squad03.model;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,5 +17,6 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
-    private String password;
+    @Column(nullable = false)
+    private String senha;
 }
