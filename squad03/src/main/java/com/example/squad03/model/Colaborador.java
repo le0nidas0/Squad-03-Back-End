@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Funcionario {
+public class Colaborador {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,8 +31,6 @@ public class Funcionario {
     @OneToMany(mappedBy = "responsavel")
     private List<Contrato> contratosResponsaveis;
 
-    @OneToMany(mappedBy = "representante")
-    private List<Contrato> contratoRepresentantes;
 
 }
 

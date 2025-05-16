@@ -38,19 +38,4 @@ public class OrgaoContratanteCreateDTO {
     @Schema(description = "Cidade", example = "Aracaju")
     private String cidade;
 
-    @NotBlank
-    @Schema(description = "Nome do representante", example = "João Silva")
-    private String nomeRepresentante;
-
-    @NotBlank
-    @Schema(description = "CPF do representante", example = "123.456.789-00")
-    private String cpfRepresentante;
-
-    @NotBlank
-    @Schema(description = "Telefone do representante", example = "(79) 99999-9999")
-    private String numeroRepresentante;
-
-    @NotBlank
-    @Schema(description = "E-mail do representante", example = "joao@sergipe.se.gov.br")
-    private String emailRepresentante;
 }

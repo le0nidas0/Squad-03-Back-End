@@ -30,5 +30,4 @@ public class OrgaoContratanteResponseDTO {
     @Schema(description = "Cidade do órgão contratante", example = "Sergipe")
     private String cidade;
 
-    private String nomeRepresentante;
 }

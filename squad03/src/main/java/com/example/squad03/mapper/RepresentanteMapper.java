@@ -1,0 +1,29 @@
+package com.example.squad03.mapper;
+
+import com.example.squad03.dto.RepresentanteCreateDTO;
+import com.example.squad03.dto.RepresentanteResponseDTO;
+import com.example.squad03.model.OrgaoContratante;
+import com.example.squad03.model.Representante;
+
+public class RepresentanteMapper {
+
+    public static Representante toEntity(RepresentanteCreateDTO dto, OrgaoContratante orgao) {
+        Representante representante = new Representante();
+        representante.setNome(dto.getNome());
+        representante.setCpf(dto.getCpf());
+        representante.setEmail(dto.getEmail());
+        representante.setTelefone(dto.getTelefone());
+        representante.setOrgaoContratante(orgao);
+        return representante;
+    }
+
+    public static RepresentanteResponseDTO toDTO(Representante entity) {
+        RepresentanteResponseDTO dto = new RepresentanteResponseDTO();
+        dto.setId(entity.getId());
+        dto.setNome(entity.getNome());
+        dto.setEmail(entity.getEmail());
+        dto.setTelefone(entity.getTelefone());
+        return dto;
+    }
+
+}

@@ -33,6 +33,6 @@ public class ContratoResponseDTO {
     private OrgaoContratanteResponseDTO orgaoContratante;
 
     @Schema(description = "Dados do responsável pelo contrato")
-    private FuncionarioResponseDTO responsavel;
+    private ColaboradorResponseDTO responsavel;
 
 }

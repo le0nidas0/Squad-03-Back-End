@@ -5,11 +5,11 @@ import com.example.squad03.dto.ContratoResponseDTO;
 import com.example.squad03.enums.StatusContrato;
 import com.example.squad03.exception.RecursoNaoEncontradoException;
 import com.example.squad03.mapper.ContratoMapper;
+import com.example.squad03.model.Colaborador;
 import com.example.squad03.model.Contrato;
-import com.example.squad03.model.Funcionario;
 import com.example.squad03.model.OrgaoContratante;
 import com.example.squad03.repository.ContratoRepository;
-import com.example.squad03.repository.FuncionarioRepository;
+import com.example.squad03.repository.ColaboradorRepository;
 import com.example.squad03.repository.OrgaoContratanteRepository;
 import com.example.squad03.service.ContratoService;
 import lombok.RequiredArgsConstructor;
@@ -23,12 +23,12 @@ import java.util.stream.Collectors;
 public class ContratoServiceImpl implements ContratoService {
 
     private final ContratoRepository contratoRepository;
-    private final FuncionarioRepository funcionarioRepository;
+    private final ColaboradorRepository colaboradorRepository;
     private final OrgaoContratanteRepository orgaoRepository;
 
     @Override
     public ContratoResponseDTO criarContrato(ContratoCreateDTO dto) {
-        Funcionario responsavel = funcionarioRepository.findById(dto.getResponsavelId())
+        Colaborador responsavel = colaboradorRepository.findById(dto.getResponsavelId())
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Responsável não encontrado."));
 
         OrgaoContratante orgao = orgaoRepository.findById(dto.getOrgaoContratanteId())
@@ -76,7 +76,7 @@ public class ContratoServiceImpl implements ContratoService {
         Contrato contratoExistente = contratoRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Contrato não encontrado com ID " + id));
 
-        Funcionario responsavel = funcionarioRepository.findById(dto.getResponsavelId())
+        Colaborador responsavel = colaboradorRepository.findById(dto.getResponsavelId())
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Responsável não encontrado."));
 
         OrgaoContratante orgao = orgaoRepository.findById(dto.getOrgaoContratanteId())

@@ -34,11 +34,11 @@ public class Contrato {
 
     @ManyToOne
     @JoinColumn(name = "id_responsavel")
-    private Funcionario responsavel;
+    private Colaborador responsavel;
 
     @ManyToOne
     @JoinColumn(name = "id_representante")
-    private Funcionario representante;
+    private Representante representante;
 
 
 /*

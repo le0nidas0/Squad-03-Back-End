@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Schema(description = "Dados de retorno de um Funcionário")
-public class FuncionarioResponseDTO {
+public class ColaboradorResponseDTO {
 
     @Schema(description = "ID do funcionário", example = "1")
     private Long idFuncionario;

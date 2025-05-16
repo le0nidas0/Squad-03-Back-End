@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Schema(description = "Dados para criação de um Funcionário")
-public class FuncionarioCreateDTO {
+public class ColaboradorCreateDTO {
 
     @NotBlank
     @Schema(description = "Nome do funcionário", example = "João Silva")

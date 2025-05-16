@@ -3,15 +3,15 @@ package com.example.squad03.mapper;
 import com.example.squad03.dto.ContratoCreateDTO;
 import com.example.squad03.dto.ContratoResponseDTO;
 import com.example.squad03.enums.StatusContrato;
+import com.example.squad03.model.Colaborador;
 import com.example.squad03.model.Contrato;
-import com.example.squad03.model.Funcionario;
 import com.example.squad03.model.OrgaoContratante;
 
 import java.time.LocalDateTime;
 
 public class ContratoMapper {
 
-    public static Contrato toEntity(ContratoCreateDTO dto, OrgaoContratante orgao, Funcionario responsavel) {
+    public static Contrato toEntity(ContratoCreateDTO dto, OrgaoContratante orgao, Colaborador responsavel) {
         Contrato contrato = new Contrato();
         contrato.setPrazo(dto.getPrazo());
         contrato.setValor(dto.getValor());
@@ -30,7 +30,7 @@ public class ContratoMapper {
         dto.setStatus(contrato.getStatus());
         dto.setCriadoEm(contrato.getCriadoEm());
         dto.setOrgaoContratante(OrgaoContratanteMapper.toDTO(contrato.getOrgaoContratante()));
-        dto.setResponsavel(FuncionarioMapper.toDTO(contrato.getResponsavel()));
+        dto.setResponsavel(ColaboradorMapper.toDTO(contrato.getResponsavel()));
         return dto;
     }
 }

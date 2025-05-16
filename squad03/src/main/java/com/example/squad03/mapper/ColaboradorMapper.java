@@ -1,21 +1,21 @@
 package com.example.squad03.mapper;
 
-import com.example.squad03.dto.FuncionarioCreateDTO;
-import com.example.squad03.dto.FuncionarioResponseDTO;
-import com.example.squad03.model.Funcionario;
+import com.example.squad03.dto.ColaboradorCreateDTO;
+import com.example.squad03.dto.ColaboradorResponseDTO;
+import com.example.squad03.model.Colaborador;
 
-public class FuncionarioMapper {
+public class ColaboradorMapper {
 
-    public static FuncionarioResponseDTO toDTO(Funcionario entity) {
-        FuncionarioResponseDTO dto = new FuncionarioResponseDTO();
+    public static ColaboradorResponseDTO toDTO(Colaborador entity) {
+        ColaboradorResponseDTO dto = new ColaboradorResponseDTO();
         dto.setIdFuncionario(entity.getIdFuncionario());
         dto.setNome(entity.getNome());
         dto.setCargo(entity.getCargo());
         return dto;
     }
 
-    public static Funcionario toEntity(FuncionarioCreateDTO dto) {
-        Funcionario entity = new Funcionario();
+    public static Colaborador toEntity(ColaboradorCreateDTO dto) {
+        Colaborador entity = new Colaborador();
         entity.setNome(dto.getNome());
         entity.setEmail(dto.getEmail());
         entity.setCpf(dto.getCpf());
