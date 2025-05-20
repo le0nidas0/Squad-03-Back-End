@@ -41,10 +41,11 @@ public class ColaboradorServiceImpl implements ColaboradorService {
     }
 
     @Override
-    public void deletar(Long id) {
+    public String deletar(Long id) {
         Colaborador colaborador = colaboradorRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Colaborador não encontrado com ID " + id));
         colaboradorRepository.delete(colaborador);
+        return "Colaborador com ID " + id + " foi deletado com sucesso.";
     }
 
     @Override

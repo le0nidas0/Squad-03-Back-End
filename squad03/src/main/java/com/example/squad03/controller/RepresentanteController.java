@@ -32,4 +32,9 @@ public class RepresentanteController {
     public RepresentanteResponseDTO buscarPorId(@PathVariable Long id) {
         return service.buscarPorId(id);
     }
+
+    @DeleteMapping("/{id}")
+    public void deletar(@PathVariable Long id) {
+        service.deletar(id);
+    }
 }

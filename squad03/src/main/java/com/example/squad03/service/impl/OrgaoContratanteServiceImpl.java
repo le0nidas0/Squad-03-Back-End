@@ -63,9 +63,11 @@ public class OrgaoContratanteServiceImpl implements OrgaoContratanteService {
     }
 
     @Override
-    public void deletar(Long id) {
+    public String deletar(Long id) {
         OrgaoContratante orgao = repository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Órgão contratante não encontrado com ID " + id));
         repository.delete(orgao);
+        return "Órgão contratante com ID " + id + " foi deletado com sucesso.";
     }
+
 }

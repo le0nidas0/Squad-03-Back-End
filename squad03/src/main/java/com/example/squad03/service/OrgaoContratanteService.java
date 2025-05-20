@@ -9,6 +9,6 @@ public interface OrgaoContratanteService {
     OrgaoContratanteResponseDTO criarOrgao(OrgaoContratanteCreateDTO dto);
     OrgaoContratanteResponseDTO buscarPorId(Long id);
     List<OrgaoContratanteResponseDTO> listarTodos();
-    void deletar(Long id);
+    String deletar(Long id);
     OrgaoContratanteResponseDTO atualizar(Long id, OrgaoContratanteCreateDTO dto);
 }

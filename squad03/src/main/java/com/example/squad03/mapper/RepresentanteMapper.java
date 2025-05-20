@@ -22,6 +22,7 @@ public class RepresentanteMapper {
         dto.setId(entity.getId());
         dto.setNome(entity.getNome());
         dto.setEmail(entity.getEmail());
+        dto.setCpf(entity.getCpf());
         dto.setTelefone(entity.getTelefone());
         return dto;
     }

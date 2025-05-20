@@ -46,4 +46,12 @@ public class RepresentanteServiceImpl implements RepresentanteService {
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Representante não encontrado"));
         return RepresentanteMapper.toDTO(representante);
     }
+
+    @Override
+    public String deletar(Long id) {
+        Representante representante = representanteRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Representante não encontrado com ID " + id));
+        representanteRepository.delete(representante);
+        return "Representante com ID " + id + " foi deletado com sucesso.";
+    }
 }

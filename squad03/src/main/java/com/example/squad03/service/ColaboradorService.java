@@ -13,7 +13,7 @@ public interface ColaboradorService {
 
     ColaboradorResponseDTO buscarPorId(Long id);
 
-    void deletar(Long id);
+    String deletar(Long id);
 
     ColaboradorResponseDTO atualizar(Long id, ColaboradorCreateDTO dto);
 }

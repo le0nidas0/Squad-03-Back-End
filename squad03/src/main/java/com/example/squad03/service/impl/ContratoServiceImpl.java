@@ -12,9 +12,11 @@ import com.example.squad03.repository.ContratoRepository;
 import com.example.squad03.repository.ColaboradorRepository;
 import com.example.squad03.repository.OrgaoContratanteRepository;
 import com.example.squad03.service.ContratoService;
+import com.example.squad03.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +27,7 @@ public class ContratoServiceImpl implements ContratoService {
     private final ContratoRepository contratoRepository;
     private final ColaboradorRepository colaboradorRepository;
     private final OrgaoContratanteRepository orgaoRepository;
+    private final EmailService emailService;
 
     @Override
     public ContratoResponseDTO criarContrato(ContratoCreateDTO dto) {
@@ -37,8 +40,17 @@ public class ContratoServiceImpl implements ContratoService {
         Contrato contrato = ContratoMapper.toEntity(dto, orgao, responsavel);
         contrato = contratoRepository.save(contrato);
 
+        if (responsavel.getEmail() != null && !responsavel.getEmail().isBlank()) {
+            emailService.enviarNotificacaoResponsavelContrato(
+                    responsavel.getEmail(),
+                    responsavel.getNome(),
+                    contrato.getIdContrato()
+            );
+        }
+
         return ContratoMapper.toDTO(contrato);
     }
+
 
     @Override
     public ContratoResponseDTO buscarPorId(Long id) {
@@ -91,6 +103,28 @@ public class ContratoServiceImpl implements ContratoService {
         contratoExistente = contratoRepository.save(contratoExistente);
 
         return ContratoMapper.toDTO(contratoExistente);
+    }
+
+    public void verificarContratosProximosDoFim() {
+        List<Contrato> contratos = contratoRepository.findAll();
+
+        LocalDate hoje = LocalDate.now();
+
+        for (Contrato contrato : contratos) {
+            if (contrato.getPrazo() != null && !contrato.getStatus().equals(StatusContrato.ARQUIVADO)) {
+                LocalDate prazo = contrato.getPrazo();
+                if (prazo.minusDays(7).isEqual(hoje)) {
+                    Colaborador responsavel = contrato.getResponsavel();
+                    if (responsavel != null && responsavel.getEmail() != null) {
+                        emailService.enviarAvisoContrato(
+                                responsavel.getEmail(),
+                                responsavel.getNome(),
+                                "ID " + contrato.getIdContrato()
+                        );
+                    }
+                }
+            }
+        }
     }
 }
 
