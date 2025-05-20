@@ -1,6 +1,7 @@
 package com.example.squad03.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,22 +13,32 @@ public class OrgaoContratanteResponseDTO {
     @Schema(description = "ID do órgão contratante", example = "1")
     private Long idOrgao;
 
+    @NotBlank
     @Schema(description = "Nome do órgão contratante", example = "Prefeitura Municipal de Sergipe")
     private String nome;
 
-    @Schema(description = "Nome fantasia do órgão contratante", example = "Prefeitura do Sergipe")
+    @NotBlank
+    @Schema(description = "Nome fantasia do órgão contratante", example = "Prefeitura de Sergipe")
     private String nomeFantasia;
 
-    @Schema(description = "Razão social do órgão contratante", example = "Prefeitura do Sergipe - Administração Direta")
+    @NotBlank
+    @Schema(description = "Razão social do órgão contratante", example = "Município de Sergipe")
     private String razaoSocial;
 
-    @Schema(description = "Número da empresa", example = "12345")
+    @NotBlank
+    @Schema(description = "CNPJ do órgão contratante", example = "12.345.678/0001-90")
+    private String cnpj;
+
+    @NotBlank
+    @Schema(description = "Número da empresa", example = "123456789")
     private String numeroEmpresa;
 
-    @Schema(description = "Estado do órgão contratante", example = "SE")
+    @NotBlank
+    @Schema(description = "Estado", example = "Sergipe")
     private String estado;
 
-    @Schema(description = "Cidade do órgão contratante", example = "Sergipe")
+    @NotBlank
+    @Schema(description = "Cidade", example = "Aracaju")
     private String cidade;
 
 }

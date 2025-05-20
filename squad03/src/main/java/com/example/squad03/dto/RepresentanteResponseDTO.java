@@ -1,13 +1,27 @@
 package com.example.squad03.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class RepresentanteResponseDTO {
+
     private Long id;
+
+    @NotNull
     private String nome;
-    private String telefone;
+
+    @NotNull
+    private String cpf;
+
+    @NotNull
     private String email;
+
+    @NotNull
+    private String telefone;
+
+    @NotNull
+    private Long idOrgaoContratante;
 }

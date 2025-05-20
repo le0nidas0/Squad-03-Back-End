@@ -11,6 +11,9 @@ public class ColaboradorMapper {
         dto.setIdFuncionario(entity.getIdFuncionario());
         dto.setNome(entity.getNome());
         dto.setCargo(entity.getCargo());
+        dto.setTelefone(entity.getTelefone());
+        dto.setEmail(entity.getEmail());
+        dto.setCpf(entity.getCpf());
         return dto;
     }
 
