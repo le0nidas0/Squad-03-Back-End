@@ -55,7 +55,6 @@ public class ColaboradorServiceImpl implements ColaboradorService {
 
         colaborador.setNome(dto.getNome());
         colaborador.setEmail(dto.getEmail());
-        colaborador.setCpf(dto.getCpf());
         colaborador.setCargo(dto.getCargo());
         colaborador.setTelefone(dto.getTelefone());
 

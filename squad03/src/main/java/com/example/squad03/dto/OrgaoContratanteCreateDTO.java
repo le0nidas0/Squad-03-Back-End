@@ -38,4 +38,35 @@ public class OrgaoContratanteCreateDTO {
     @Schema(description = "Cidade", example = "Aracaju")
     private String cidade;
 
+    @NotBlank
+    @Schema(description = "Inscricao municipal")
+    private String inscricaoMunicipal;
+
+    @NotBlank
+    @Schema(description = "Tipo de empresa", example = "Publica ou privada")
+    private String tipoEmpresa;
+
+    @NotBlank
+    @Schema(description = "CEP", example = "49000000")
+    private String cep;
+
+    @NotBlank
+    @Schema(description = "Bairro", example = "Atalaia")
+    private String bairro;
+
+    @NotBlank
+    @Schema(description = "logradouro", example = "Avenida Ivo do Prado")
+    private String logradouro;
+
+    @Schema(description = "Complemento do endereço")
+    private String complemento;
+
+    @NotBlank
+    @Schema(description = "email da empresa", example = "getinfo@gmail.com")
+    private String email;
+
+    @NotBlank
+    @Schema(description = "telefone da empresa", example = "(79)9 9999-9999")
+    private String telefone;
+
 }

@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @Schema(description = "Dados para criação de um Funcionário")
@@ -29,4 +31,8 @@ public class ColaboradorCreateDTO {
     @NotBlank
     @Schema(description = "Telefone do funcionário", example = "(79) 91234-5678")
     private String telefone;
+
+    @NotBlank
+    @Schema(description = "Data de nascimento")
+    private LocalDate dataNascimento;
 }

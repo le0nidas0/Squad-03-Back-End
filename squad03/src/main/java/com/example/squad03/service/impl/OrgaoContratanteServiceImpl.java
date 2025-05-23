@@ -53,7 +53,6 @@ public class OrgaoContratanteServiceImpl implements OrgaoContratanteService {
         existente.setNome(dto.getNome());
         existente.setNomeFantasia(dto.getNomeFantasia());
         existente.setRazaoSocial(dto.getRazaoSocial());
-        existente.setCnpj(dto.getCnpj());
         existente.setNumeroEmpresa(dto.getNumeroEmpresa());
         existente.setEstado(dto.getEstado());
         existente.setCidade(dto.getCidade());

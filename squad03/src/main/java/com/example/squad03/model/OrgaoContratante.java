@@ -29,6 +29,14 @@ public class OrgaoContratante {
     private String numeroEmpresa;
     private String estado;
     private String cidade;
+    private String inscricaoMunicipal;
+    private String tipoEmpresa;
+    private String cep;
+    private String bairro;
+    private String logradouro;
+    private String complemento;
+    private String email;
+    private String telefone;
 
     @OneToMany(mappedBy = "orgaoContratante")
     @JsonIgnore

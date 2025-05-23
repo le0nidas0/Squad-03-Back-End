@@ -14,6 +14,7 @@ public class ColaboradorMapper {
         dto.setTelefone(entity.getTelefone());
         dto.setEmail(entity.getEmail());
         dto.setCpf(entity.getCpf());
+        dto.setDataNascimento(entity.getDataNascimento());
         return dto;
     }
 
@@ -24,6 +25,7 @@ public class ColaboradorMapper {
         entity.setCpf(dto.getCpf());
         entity.setCargo(dto.getCargo());
         entity.setTelefone(dto.getTelefone());
+        entity.setDataNascimento(dto.getDataNascimento());
         return entity;
     }
 }
