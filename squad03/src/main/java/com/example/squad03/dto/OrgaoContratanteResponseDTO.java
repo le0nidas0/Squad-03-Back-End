@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Schema(description = "Dados de retorno de um Órgão Contratante (seguindo a LGPD)")
@@ -71,5 +73,7 @@ public class OrgaoContratanteResponseDTO {
     @NotBlank
     @Schema(description = "telefone da empresa", example = "(79)9 9999-9999")
     private String telefone;
+
+    private List<RepresentanteResponseDTO> representantes;
 
 }

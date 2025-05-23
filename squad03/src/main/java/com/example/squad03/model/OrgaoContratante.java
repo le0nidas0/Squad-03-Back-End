@@ -41,6 +41,10 @@ public class OrgaoContratante {
     @OneToMany(mappedBy = "orgaoContratante")
     @JsonIgnore
     private List<Contrato> contratos;
+
+    @OneToMany(mappedBy = "orgaoContratante", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Representante> representantes;
 }
 
 

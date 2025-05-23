@@ -4,6 +4,8 @@ import com.example.squad03.dto.OrgaoContratanteCreateDTO;
 import com.example.squad03.dto.OrgaoContratanteResponseDTO;
 import com.example.squad03.model.OrgaoContratante;
 
+import java.util.stream.Collectors;
+
 public class OrgaoContratanteMapper {
 
     public static OrgaoContratanteResponseDTO toDTO(OrgaoContratante entity) {
@@ -24,6 +26,13 @@ public class OrgaoContratanteMapper {
         dto.setEmail(entity.getEmail());
         dto.setTelefone(entity.getTelefone());
         dto.setInscricaoMunicipal(entity.getInscricaoMunicipal());
+        dto.setRepresentantes(
+                entity.getRepresentantes() != null
+                        ? entity.getRepresentantes().stream()
+                        .map(RepresentanteMapper::toDTO)
+                        .collect(Collectors.toList())
+                        : null
+        );
         return dto;
     }
 
