@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @Schema(description = "Dados de retorno de um Órgão Contratante (seguindo a LGPD)")
-public class OrgaoContratanteResponseDTO {
+public class EmpresaResponseDTO {
 
     @Schema(description = "ID do órgão contratante", example = "1")
     private Long idOrgao;

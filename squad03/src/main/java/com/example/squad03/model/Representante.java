@@ -24,6 +24,6 @@ public class Representante {
     private String telefone;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "orgao_contratante_id", nullable = false)
-    private OrgaoContratante orgaoContratante;
+    @JoinColumn(name = "empresa_id", nullable = false)
+    private Empresa empresa;
 }

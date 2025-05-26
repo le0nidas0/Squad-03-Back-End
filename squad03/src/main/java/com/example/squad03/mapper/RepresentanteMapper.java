@@ -2,18 +2,18 @@ package com.example.squad03.mapper;
 
 import com.example.squad03.dto.RepresentanteCreateDTO;
 import com.example.squad03.dto.RepresentanteResponseDTO;
-import com.example.squad03.model.OrgaoContratante;
+import com.example.squad03.model.Empresa;
 import com.example.squad03.model.Representante;
 
 public class RepresentanteMapper {
 
-    public static Representante toEntity(RepresentanteCreateDTO dto, OrgaoContratante orgao) {
+    public static Representante toEntity(RepresentanteCreateDTO dto, Empresa orgao) {
         Representante representante = new Representante();
         representante.setNome(dto.getNome());
         representante.setCpf(dto.getCpf());
         representante.setEmail(dto.getEmail());
         representante.setTelefone(dto.getTelefone());
-        representante.setOrgaoContratante(orgao);
+        representante.setEmpresa(orgao);
         return representante;
     }
 

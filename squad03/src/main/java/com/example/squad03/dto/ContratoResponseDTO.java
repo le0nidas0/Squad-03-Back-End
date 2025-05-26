@@ -30,7 +30,7 @@ public class ContratoResponseDTO {
     private LocalDateTime criadoEm;
 
     @Schema(description = "Dados do órgão contratante")
-    private OrgaoContratanteResponseDTO orgaoContratante;
+    private EmpresaResponseDTO empresa;
 
     @Schema(description = "Dados do responsável pelo contrato")
     private ColaboradorResponseDTO responsavel;

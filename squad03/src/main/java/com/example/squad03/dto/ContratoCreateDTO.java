@@ -27,8 +27,8 @@ public class ContratoCreateDTO {
     private StatusContrato status;
 
     @NotNull
-    @Schema(description = "ID do órgão contratante")
-    private Long orgaoContratanteId;
+    @Schema(description = "ID da empresa")
+    private Long empresaId;
 
     @NotNull
     @Schema(description = "ID do funcionário responsável")

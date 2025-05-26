@@ -1,15 +1,15 @@
 package com.example.squad03.mapper;
 
-import com.example.squad03.dto.OrgaoContratanteCreateDTO;
-import com.example.squad03.dto.OrgaoContratanteResponseDTO;
-import com.example.squad03.model.OrgaoContratante;
+import com.example.squad03.dto.EmpresaCreateDTO;
+import com.example.squad03.dto.EmpresaResponseDTO;
+import com.example.squad03.model.Empresa;
 
 import java.util.stream.Collectors;
 
-public class OrgaoContratanteMapper {
+public class EmpresaMapper {
 
-    public static OrgaoContratanteResponseDTO toDTO(OrgaoContratante entity) {
-        OrgaoContratanteResponseDTO dto = new OrgaoContratanteResponseDTO();
+    public static EmpresaResponseDTO toDTO(Empresa entity) {
+        EmpresaResponseDTO dto = new EmpresaResponseDTO();
         dto.setTipoEmpresa(entity.getTipoEmpresa());
         dto.setIdOrgao(entity.getIdOrgao());
         dto.setNome(entity.getNome());
@@ -36,8 +36,8 @@ public class OrgaoContratanteMapper {
         return dto;
     }
 
-    public static OrgaoContratante toEntity(OrgaoContratanteCreateDTO dto) {
-        OrgaoContratante entity = new OrgaoContratante();
+    public static Empresa toEntity(EmpresaCreateDTO dto) {
+        Empresa entity = new Empresa();
         entity.setTipoEmpresa(dto.getTipoEmpresa());
         entity.setNome(dto.getNome());
         entity.setCnpj(dto.getCnpj());

@@ -1,20 +1,18 @@
 package com.example.squad03.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "OrgaoContratante")
-@Table(name = "orgao_contratante")
+@Entity(name = "empresa")
+@Table(name = "Empresa")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrgaoContratante {
+public class Empresa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,17 +37,17 @@ public class OrgaoContratante {
     private String email;
     private String telefone;
 
-    @OneToMany(mappedBy = "orgaoContratante")
+    @OneToMany(mappedBy = "empresa")
     @JsonIgnore
     private List<Contrato> contratos;
 
-    @OneToMany(mappedBy = "orgaoContratante", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Representante> representantes = new ArrayList<>();
 
     public void addRepresentante(Representante representante) {
         representantes.add(representante);
-        representante.setOrgaoContratante(this);
+        representante.setEmpresa(this);
     }
 }
 

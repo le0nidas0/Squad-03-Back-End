@@ -7,10 +7,10 @@ import com.example.squad03.exception.RecursoNaoEncontradoException;
 import com.example.squad03.mapper.ContratoMapper;
 import com.example.squad03.model.Colaborador;
 import com.example.squad03.model.Contrato;
-import com.example.squad03.model.OrgaoContratante;
+import com.example.squad03.model.Empresa;
 import com.example.squad03.repository.ContratoRepository;
 import com.example.squad03.repository.ColaboradorRepository;
-import com.example.squad03.repository.OrgaoContratanteRepository;
+import com.example.squad03.repository.EmpresaRepository;
 import com.example.squad03.service.ContratoService;
 import com.example.squad03.service.EmailService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class ContratoServiceImpl implements ContratoService {
 
     private final ContratoRepository contratoRepository;
     private final ColaboradorRepository colaboradorRepository;
-    private final OrgaoContratanteRepository orgaoRepository;
+    private final EmpresaRepository orgaoRepository;
     private final EmailService emailService;
 
     @Override
@@ -34,7 +34,7 @@ public class ContratoServiceImpl implements ContratoService {
         Colaborador responsavel = colaboradorRepository.findById(dto.getResponsavelId())
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Responsável não encontrado."));
 
-        OrgaoContratante orgao = orgaoRepository.findById(dto.getOrgaoContratanteId())
+        Empresa orgao = orgaoRepository.findById(dto.getEmpresaId())
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Órgão contratante não encontrado."));
 
         Contrato contrato = ContratoMapper.toEntity(dto, orgao, responsavel);
@@ -91,14 +91,14 @@ public class ContratoServiceImpl implements ContratoService {
         Colaborador responsavel = colaboradorRepository.findById(dto.getResponsavelId())
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Responsável não encontrado."));
 
-        OrgaoContratante orgao = orgaoRepository.findById(dto.getOrgaoContratanteId())
+        Empresa orgao = orgaoRepository.findById(dto.getEmpresaId())
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Órgão contratante não encontrado."));
 
         contratoExistente.setPrazo(dto.getPrazo());
         contratoExistente.setStatus(dto.getStatus());
         contratoExistente.setValor(dto.getValor());
         contratoExistente.setResponsavel(responsavel);
-        contratoExistente.setOrgaoContratante(orgao);
+        contratoExistente.setEmpresa(orgao);
 
         contratoExistente = contratoRepository.save(contratoExistente);
 

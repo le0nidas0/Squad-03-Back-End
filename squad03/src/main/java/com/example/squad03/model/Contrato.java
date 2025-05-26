@@ -29,8 +29,8 @@ public class Contrato {
     private StatusContrato status;
 
     @ManyToOne
-    @JoinColumn(name = "orgao_contratante_id")
-    private OrgaoContratante orgaoContratante;
+    @JoinColumn(name = "empresa_id")
+    private Empresa empresa;
 
     @ManyToOne
     @JoinColumn(name = "id_responsavel")

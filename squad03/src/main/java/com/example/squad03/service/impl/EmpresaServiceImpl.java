@@ -1,13 +1,13 @@
 package com.example.squad03.service.impl;
 
-import com.example.squad03.dto.OrgaoContratanteCreateDTO;
-import com.example.squad03.dto.OrgaoContratanteResponseDTO;
+import com.example.squad03.dto.EmpresaCreateDTO;
+import com.example.squad03.dto.EmpresaResponseDTO;
 import com.example.squad03.exception.RecursoNaoEncontradoException;
-import com.example.squad03.mapper.OrgaoContratanteMapper;
-import com.example.squad03.model.OrgaoContratante;
+import com.example.squad03.mapper.EmpresaMapper;
+import com.example.squad03.model.Empresa;
 import com.example.squad03.model.Representante;
-import com.example.squad03.repository.OrgaoContratanteRepository;
-import com.example.squad03.service.OrgaoContratanteService;
+import com.example.squad03.repository.EmpresaRepository;
+import com.example.squad03.service.EmpresaService;
 import com.example.squad03.util.ValidadorDocumentoUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,20 +17,20 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class OrgaoContratanteServiceImpl implements OrgaoContratanteService {
+public class EmpresaServiceImpl implements EmpresaService {
 
-    private final OrgaoContratanteRepository repository;
+    private final EmpresaRepository repository;
 
     @Override
-    public OrgaoContratanteResponseDTO criarOrgao(OrgaoContratanteCreateDTO dto) {
+    public EmpresaResponseDTO criarOrgao(EmpresaCreateDTO dto) {
         if (!ValidadorDocumentoUtil.isCnpjValido(dto.getCnpj())) {
             throw new IllegalArgumentException("CNPJ inválido");
         }
 
-        OrgaoContratante orgao = OrgaoContratanteMapper.toEntity(dto);
+        Empresa orgao = EmpresaMapper.toEntity(dto);
 
         if (dto.getRepresentantes() != null) {
-            OrgaoContratante finalOrgao = orgao;
+            Empresa finalOrgao = orgao;
             dto.getRepresentantes().forEach(rdto -> {
                 Representante rep = new Representante();
                 rep.setNome(rdto.getNome());
@@ -43,27 +43,27 @@ public class OrgaoContratanteServiceImpl implements OrgaoContratanteService {
 
         orgao = repository.save(orgao);
 
-        return OrgaoContratanteMapper.toDTO(orgao);
+        return EmpresaMapper.toDTO(orgao);
     }
 
     @Override
-    public List<OrgaoContratanteResponseDTO> listarTodos() {
+    public List<EmpresaResponseDTO> listarTodos() {
         return repository.findAll().stream()
-                .map(OrgaoContratanteMapper::toDTO)
+                .map(EmpresaMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public OrgaoContratanteResponseDTO buscarPorId(Long id) {
-        OrgaoContratante orgao = repository.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Órgão contratante não encontrado com ID " + id));
-        return OrgaoContratanteMapper.toDTO(orgao);
+    public EmpresaResponseDTO buscarPorId(Long id) {
+        Empresa orgao = repository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Empresa não encontrado com ID " + id));
+        return EmpresaMapper.toDTO(orgao);
     }
 
     @Override
-    public OrgaoContratanteResponseDTO atualizar(Long id, OrgaoContratanteCreateDTO dto) {
-        OrgaoContratante existente = repository.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Órgão contratante não encontrado com ID " + id));
+    public EmpresaResponseDTO atualizar(Long id, EmpresaCreateDTO dto) {
+        Empresa existente = repository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Empresa não encontrada com ID " + id));
 
         existente.setNome(dto.getNome());
         existente.setNomeFantasia(dto.getNomeFantasia());
@@ -73,15 +73,15 @@ public class OrgaoContratanteServiceImpl implements OrgaoContratanteService {
         existente.setCidade(dto.getCidade());
         existente = repository.save(existente);
 
-        return OrgaoContratanteMapper.toDTO(existente);
+        return EmpresaMapper.toDTO(existente);
     }
 
     @Override
     public String deletar(Long id) {
-        OrgaoContratante orgao = repository.findById(id)
+        Empresa orgao = repository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Órgão contratante não encontrado com ID " + id));
         repository.delete(orgao);
-        return "Órgão contratante com ID " + id + " foi deletado com sucesso.";
+        return "Empresa com ID " + id + " foi deletado com sucesso.";
     }
 
 }

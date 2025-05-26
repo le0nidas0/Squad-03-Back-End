@@ -4,9 +4,9 @@ import com.example.squad03.dto.RepresentanteCreateDTO;
 import com.example.squad03.dto.RepresentanteResponseDTO;
 import com.example.squad03.exception.RecursoNaoEncontradoException;
 import com.example.squad03.mapper.RepresentanteMapper;
-import com.example.squad03.model.OrgaoContratante;
+import com.example.squad03.model.Empresa;
 import com.example.squad03.model.Representante;
-import com.example.squad03.repository.OrgaoContratanteRepository;
+import com.example.squad03.repository.EmpresaRepository;
 import com.example.squad03.repository.RepresentanteRepository;
 import com.example.squad03.service.RepresentanteService;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +20,11 @@ import java.util.stream.Collectors;
 public class RepresentanteServiceImpl implements RepresentanteService {
 
     private final RepresentanteRepository representanteRepository;
-    private final OrgaoContratanteRepository orgaoContratanteRepository;
+    private final EmpresaRepository empresaRepository;
 
     @Override
     public RepresentanteResponseDTO criar(RepresentanteCreateDTO dto) {
-        OrgaoContratante orgao = orgaoContratanteRepository.findById(dto.getIdOrgaoContratante())
+        Empresa orgao = empresaRepository.findById(dto.getIdOrgaoContratante())
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Órgão não encontrado"));
 
         Representante representante = RepresentanteMapper.toEntity(dto, orgao);

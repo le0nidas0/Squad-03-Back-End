@@ -9,23 +9,23 @@ import java.util.List;
 
 @Getter
 @Setter
-@Schema(description = "Dados para criação de um Órgão Contratante")
-public class OrgaoContratanteCreateDTO {
+@Schema(description = "Dados para criação de uma Empresa")
+public class EmpresaCreateDTO {
 
     @NotBlank
-    @Schema(description = "Nome do órgão contratante", example = "Prefeitura Municipal de Sergipe")
+    @Schema(description = "Nome da empresa", example = "Prefeitura Municipal de Sergipe")
     private String nome;
 
     @NotBlank
-    @Schema(description = "Nome fantasia do órgão contratante", example = "Prefeitura de Sergipe")
+    @Schema(description = "Nome fantasia da empresa", example = "Prefeitura de Sergipe")
     private String nomeFantasia;
 
     @NotBlank
-    @Schema(description = "Razão social do órgão contratante", example = "Município de Sergipe")
+    @Schema(description = "Razão social da empresa", example = "Município de Sergipe")
     private String razaoSocial;
 
     @NotBlank
-    @Schema(description = "CNPJ do órgão contratante", example = "12.345.678/0001-90")
+    @Schema(description = "CNPJ da empresa", example = "12.345.678/0001-90")
     private String cnpj;
 
     @NotBlank
@@ -72,7 +72,7 @@ public class OrgaoContratanteCreateDTO {
     private String telefone;
 
     @NotBlank
-    @Schema(description = "Nome do responsável pelo órgão contratante", example = "João da Silva")
+    @Schema(description = "Nome do responsável pela empresa", example = "João da Silva")
     private List<RepresentanteCreateDTO> representantes;
 
 }

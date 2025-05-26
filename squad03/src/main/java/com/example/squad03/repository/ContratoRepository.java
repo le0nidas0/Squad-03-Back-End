@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface ContratoRepository extends JpaRepository<Contrato, Long> {
 
-    List<Contrato> findByOrgaoContratante_IdOrgao(Long idOrgao);
+    List<Contrato> findByEmpresa_IdOrgao(Long idOrgao); // Corrected method name
 
     List<Contrato> findByResponsavel_IdFuncionario(Long idFuncionario);
 
