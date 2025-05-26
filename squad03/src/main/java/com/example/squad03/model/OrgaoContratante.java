@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "OrgaoContratante")
@@ -44,7 +45,12 @@ public class OrgaoContratante {
 
     @OneToMany(mappedBy = "orgaoContratante", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private List<Representante> representantes;
+    private List<Representante> representantes = new ArrayList<>();
+
+    public void addRepresentante(Representante representante) {
+        representantes.add(representante);
+        representante.setOrgaoContratante(this);
+    }
 }
 
 

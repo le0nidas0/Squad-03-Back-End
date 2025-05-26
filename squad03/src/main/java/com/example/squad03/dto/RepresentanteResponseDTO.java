@@ -21,7 +21,4 @@ public class RepresentanteResponseDTO {
 
     @NotNull
     private String telefone;
-
-    @NotNull
-    private Long idOrgaoContratante;
 }

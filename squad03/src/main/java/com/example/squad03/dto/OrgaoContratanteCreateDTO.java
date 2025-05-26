@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Schema(description = "Dados para criação de um Órgão Contratante")
@@ -68,5 +70,9 @@ public class OrgaoContratanteCreateDTO {
     @NotBlank
     @Schema(description = "telefone da empresa", example = "(79)9 9999-9999")
     private String telefone;
+
+    @NotBlank
+    @Schema(description = "Nome do responsável pelo órgão contratante", example = "João da Silva")
+    private List<RepresentanteCreateDTO> representantes;
 
 }

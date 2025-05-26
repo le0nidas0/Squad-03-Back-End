@@ -5,6 +5,7 @@ import com.example.squad03.dto.OrgaoContratanteResponseDTO;
 import com.example.squad03.exception.RecursoNaoEncontradoException;
 import com.example.squad03.mapper.OrgaoContratanteMapper;
 import com.example.squad03.model.OrgaoContratante;
+import com.example.squad03.model.Representante;
 import com.example.squad03.repository.OrgaoContratanteRepository;
 import com.example.squad03.service.OrgaoContratanteService;
 import com.example.squad03.util.ValidadorDocumentoUtil;
@@ -27,7 +28,21 @@ public class OrgaoContratanteServiceImpl implements OrgaoContratanteService {
         }
 
         OrgaoContratante orgao = OrgaoContratanteMapper.toEntity(dto);
+
+        if (dto.getRepresentantes() != null) {
+            OrgaoContratante finalOrgao = orgao;
+            dto.getRepresentantes().forEach(rdto -> {
+                Representante rep = new Representante();
+                rep.setNome(rdto.getNome());
+                rep.setCpf(rdto.getCpf());
+                rep.setEmail(rdto.getEmail());
+                rep.setTelefone(rdto.getTelefone());
+                finalOrgao.addRepresentante(rep);
+            });
+        }
+
         orgao = repository.save(orgao);
+
         return OrgaoContratanteMapper.toDTO(orgao);
     }
 
