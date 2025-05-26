@@ -23,7 +23,7 @@ public class Representante {
 
     private String telefone;
 
-    @ManyToOne
-    @JoinColumn(name = "orgao_contratante_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "orgao_contratante_id", nullable = false)
     private OrgaoContratante orgaoContratante;
 }
