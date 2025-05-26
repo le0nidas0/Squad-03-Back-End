@@ -49,6 +49,13 @@ public class EntregavelController {
         return ResponseEntity.ok(service.buscarPorId(id));
     }
 
+    @GetMapping("/contratos/{contratoId}")
+    public ResponseEntity<List<EntregavelResponseDTO>>
+    listarPorContrato(@PathVariable Long contratoId) {
+        List<EntregavelResponseDTO> lista = service.buscarPorContratoId(contratoId);
+        return ResponseEntity.ok(lista);
+    }
+
     @Operation(summary = "Atualiza um entregável existente")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Entregável atualizado com sucesso"),

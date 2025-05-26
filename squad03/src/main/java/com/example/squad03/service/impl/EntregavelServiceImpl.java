@@ -51,6 +51,19 @@ public class EntregavelServiceImpl implements EntregavelService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<EntregavelResponseDTO> buscarPorContratoId(Long contratoId) {
+        // verifica se o contrato existe
+        contratoRepository.findById(contratoId)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Contrato não encontrado com ID " + contratoId));
+
+        // busca os entregáveis vinculados
+        return entregavelRepository.findAllByContrato_idContrato(contratoId).stream()
+                .map(EntregavelMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     @Transactional
     public EntregavelResponseDTO atualizar(Long id, EntregavelCreateDTO dto) {
         Entregavel existente = entregavelRepository.findById(id)
