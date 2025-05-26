@@ -1,11 +1,19 @@
 package com.example.squad03.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Table(name = "aditivo_contratual")
 @Entity(name = "AditivoContractual")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class AditivoContractual {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
