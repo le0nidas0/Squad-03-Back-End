@@ -65,7 +65,6 @@ public class EmpresaServiceImpl implements EmpresaService {
         Empresa existente = repository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Empresa não encontrada com ID " + id));
 
-        existente.setNome(dto.getNome());
         existente.setNomeFantasia(dto.getNomeFantasia());
         existente.setRazaoSocial(dto.getRazaoSocial());
         existente.setNumeroEmpresa(dto.getNumeroEmpresa());

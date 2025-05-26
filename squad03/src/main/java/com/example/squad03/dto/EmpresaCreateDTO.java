@@ -13,10 +13,6 @@ import java.util.List;
 public class EmpresaCreateDTO {
 
     @NotBlank
-    @Schema(description = "Nome da empresa", example = "Prefeitura Municipal de Sergipe")
-    private String nome;
-
-    @NotBlank
     @Schema(description = "Nome fantasia da empresa", example = "Prefeitura de Sergipe")
     private String nomeFantasia;
 

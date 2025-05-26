@@ -18,8 +18,6 @@ public class Empresa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idOrgao;
 
-    private String nome;
-
     @Column(unique = true, length = 18)
     private String cnpj;
 

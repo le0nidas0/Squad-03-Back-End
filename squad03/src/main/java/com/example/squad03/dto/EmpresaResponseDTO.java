@@ -16,10 +16,6 @@ public class EmpresaResponseDTO {
     private Long idOrgao;
 
     @NotBlank
-    @Schema(description = "Nome do órgão contratante", example = "Prefeitura Municipal de Sergipe")
-    private String nome;
-
-    @NotBlank
     @Schema(description = "Nome fantasia do órgão contratante", example = "Prefeitura de Sergipe")
     private String nomeFantasia;
 

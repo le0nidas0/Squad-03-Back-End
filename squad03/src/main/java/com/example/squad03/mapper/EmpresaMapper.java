@@ -12,7 +12,6 @@ public class EmpresaMapper {
         EmpresaResponseDTO dto = new EmpresaResponseDTO();
         dto.setTipoEmpresa(entity.getTipoEmpresa());
         dto.setIdOrgao(entity.getIdOrgao());
-        dto.setNome(entity.getNome());
         dto.setNomeFantasia(entity.getNomeFantasia());
         dto.setRazaoSocial(entity.getRazaoSocial());
         dto.setCnpj(entity.getCnpj());
@@ -39,7 +38,6 @@ public class EmpresaMapper {
     public static Empresa toEntity(EmpresaCreateDTO dto) {
         Empresa entity = new Empresa();
         entity.setTipoEmpresa(dto.getTipoEmpresa());
-        entity.setNome(dto.getNome());
         entity.setCnpj(dto.getCnpj());
         entity.setNomeFantasia(dto.getNomeFantasia());
         entity.setRazaoSocial(dto.getRazaoSocial());
