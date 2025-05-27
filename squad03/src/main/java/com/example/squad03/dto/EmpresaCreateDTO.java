@@ -56,6 +56,10 @@ public class EmpresaCreateDTO {
     @Schema(description = "logradouro", example = "Avenida Ivo do Prado")
     private String logradouro;
 
+    @NotBlank
+    @Schema(description = "numero", example = "123")
+    private String numero;
+
     @Schema(description = "Complemento do endereço")
     private String complemento;
 
