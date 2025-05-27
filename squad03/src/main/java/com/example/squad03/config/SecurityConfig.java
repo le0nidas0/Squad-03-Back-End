@@ -43,6 +43,7 @@ public class SecurityConfig {
 
         config.setAllowedOrigins(List.of(
                 "https://squad-03-front-end-production.up.railway.app",
+                "https://gerenciador-contratos-getinfo.up.railway.app",
                 "http://localhost:3000"
         ));
 
