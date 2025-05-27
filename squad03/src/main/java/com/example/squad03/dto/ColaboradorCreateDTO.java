@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -34,5 +33,5 @@ public class ColaboradorCreateDTO {
 
     @NotBlank
     @Schema(description = "Data de nascimento")
-    private LocalDate dataNascimento;
+    private String dataNascimento;
 }

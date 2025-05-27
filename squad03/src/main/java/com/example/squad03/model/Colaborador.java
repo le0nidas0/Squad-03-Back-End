@@ -2,7 +2,6 @@ package com.example.squad03.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Table(name = "funcionario")
@@ -27,7 +26,7 @@ public class Colaborador {
 
     private String cargo;
     private String telefone;
-    private LocalDate dataNascimento;
+    private String dataNascimento;
 
     @OneToMany(mappedBy = "responsavel")
     private List<Contrato> contratosResponsaveis;
