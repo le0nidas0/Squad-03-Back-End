@@ -21,6 +21,7 @@ public class EmpresaMapper {
         dto.setCep(entity.getCep());
         dto.setBairro(entity.getBairro());
         dto.setLogradouro(entity.getLogradouro());
+        dto.setNumero(entity.getNumero());
         dto.setComplemento(entity.getComplemento());
         dto.setEmail(entity.getEmail());
         dto.setTelefone(entity.getTelefone());
@@ -44,6 +45,7 @@ public class EmpresaMapper {
         entity.setCep(dto.getCep());
         entity.setBairro(dto.getBairro());
         entity.setLogradouro(dto.getLogradouro());
+        entity.setNumero(dto.getNumero());
         entity.setNumeroEmpresa(dto.getNumeroEmpresa());
         entity.setComplemento(dto.getComplemento());
         entity.setEstado(dto.getEstado());
