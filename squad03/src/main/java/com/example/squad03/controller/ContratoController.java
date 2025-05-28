@@ -2,6 +2,7 @@ package com.example.squad03.controller;
 
 import com.example.squad03.dto.ContratoCreateDTO;
 import com.example.squad03.dto.ContratoResponseDTO;
+import com.example.squad03.enums.StatusContrato;
 import com.example.squad03.service.ContratoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -93,6 +94,16 @@ public class ContratoController {
         service.arquivarContrato(id);
         return ResponseEntity.noContent().build();
     }
+    @Operation(summary = "Lista contratos por status")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Contratos filtrados por status retornados com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Status inválido")
+    })
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<ContratoResponseDTO>> buscarPorStatus(@PathVariable StatusContrato status) {
+        return ResponseEntity.ok(service.buscarPorStatus(status));
+    }
+
 
     @Operation(summary = "Lista contratos arquivados")
     @ApiResponse(responseCode = "200", description = "Lista de contratos arquivados retornada com sucesso")

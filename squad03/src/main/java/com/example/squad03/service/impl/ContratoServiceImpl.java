@@ -146,6 +146,14 @@ public class ContratoServiceImpl implements ContratoService {
     }
 
     @Override
+    public List<ContratoResponseDTO> buscarPorStatus(StatusContrato status) {
+        return contratoRepository.findByStatusContrato(status)
+                .stream()
+                .map(ContratoMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<ContratoResponseDTO> listarContratosArquivados() {
         return contratoRepository.findByStatusContrato(StatusContrato.ARQUIVADO)
                 .stream()
