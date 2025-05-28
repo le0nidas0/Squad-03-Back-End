@@ -8,15 +8,18 @@ import com.example.squad03.mapper.ContratoMapper;
 import com.example.squad03.model.Colaborador;
 import com.example.squad03.model.Contrato;
 import com.example.squad03.model.Empresa;
+import com.example.squad03.model.Representante;
 import com.example.squad03.repository.ContratoRepository;
 import com.example.squad03.repository.ColaboradorRepository;
 import com.example.squad03.repository.EmpresaRepository;
+import com.example.squad03.repository.RepresentanteRepository;
 import com.example.squad03.service.ContratoService;
 import com.example.squad03.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,20 +29,33 @@ public class ContratoServiceImpl implements ContratoService {
 
     private final ContratoRepository contratoRepository;
     private final ColaboradorRepository colaboradorRepository;
-    private final EmpresaRepository orgaoRepository;
+    private final EmpresaRepository empresaRepository;
+    private final RepresentanteRepository representanteRepository;
     private final EmailService emailService;
 
     @Override
+    @Transactional
     public ContratoResponseDTO criarContrato(ContratoCreateDTO dto) {
         Colaborador responsavel = colaboradorRepository.findById(dto.getResponsavelId())
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Responsável não encontrado."));
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Responsável não encontrado com ID " + dto.getResponsavelId()));
 
-        Empresa orgao = orgaoRepository.findById(dto.getEmpresaId())
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Órgão contratante não encontrado."));
+        Empresa empresa = empresaRepository.findById(dto.getEmpresaId())
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Empresa não encontrada com ID " + dto.getEmpresaId()));
 
-        Contrato contrato = ContratoMapper.toEntity(dto, orgao, responsavel);
+        Representante representante = representanteRepository.findById(dto.getRepresentanteId())
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Representante não encontrado com ID " + dto.getRepresentanteId()));
+
+        // Mapeia DTO → entidade (sem valores pagos)
+        Contrato contrato = ContratoMapper.toEntity(dto, empresa, responsavel, representante);
+
+        // inicializa valores financeiros
+        contrato.setValorTotalPago(BigDecimal.ZERO);
+        contrato.setValorTotalPendente(dto.getValorContrato());
+
+        // salva em banco
         contrato = contratoRepository.save(contrato);
 
+        // notifica, se houver email
         if (responsavel.getEmail() != null && !responsavel.getEmail().isBlank()) {
             emailService.enviarNotificacaoResponsavelContrato(
                     responsavel.getEmail(),
@@ -50,7 +66,6 @@ public class ContratoServiceImpl implements ContratoService {
 
         return ContratoMapper.toDTO(contrato);
     }
-
 
     @Override
     public ContratoResponseDTO buscarPorId(Long id) {
@@ -68,63 +83,74 @@ public class ContratoServiceImpl implements ContratoService {
     }
 
     @Override
-    public List<ContratoResponseDTO> listarContratosArquivados() {
-        List<Contrato> contratosArquivados = contratoRepository.findByStatus(StatusContrato.ARQUIVADO);
-        return contratosArquivados.stream()
-                .map(ContratoMapper::toDTO)
-                .toList();
+    public ContratoResponseDTO atualizar(Long id, ContratoCreateDTO dto) {
+        Contrato existente = contratoRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Contrato não encontrado com ID " + id));
+
+        Colaborador responsavel = colaboradorRepository.findById(dto.getResponsavelId())
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Responsável não encontrado com ID " + dto.getResponsavelId()));
+
+        Empresa empresa = empresaRepository.findById(dto.getEmpresaId())
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Empresa não encontrada com ID " + dto.getEmpresaId()));
+
+        Representante representante = representanteRepository.findById(dto.getRepresentanteId())
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Representante não encontrado com ID " + dto.getRepresentanteId()));
+
+        // Atualiza campos básicos
+        existente.setNumeroContrato(dto.getNumeroContrato());
+        existente.setDescricao(dto.getDescricao());
+        existente.setDataInicio(dto.getDataInicio());
+        existente.setDataFim(dto.getDataFim());
+        existente.setTermosDePagamento(dto.getTermosDePagamento());
+        existente.setValorContrato(dto.getValorContrato());
+        existente.setAutoRenovacao(dto.getAutoRenovacao());
+        existente.setDiasParaCancelamento(dto.getDiasParaCancelamento());
+        existente.setMotivoCancelamento(dto.getMotivoCancelamento());
+        existente.setStatusContrato(dto.getStatusContrato());
+        existente.setTipoContrato(dto.getTipoContrato());
+        existente.setTags(dto.getTags());
+//        existente.setDocumentUrl(dto.getDocumentUrl());
+
+        existente.setEmpresa(empresa);
+        existente.setResponsavel(responsavel);
+        existente.setRepresentante(representante);
+
+        // Se o valorContrato mudou, ajuste o pendente (não zera o pago)
+        existente.setValorTotalPendente(
+                existente.getValorContrato()
+                        .subtract(existente.getValorTotalPago())
+        );
+
+        // Salva
+        existente = contratoRepository.save(existente);
+
+        return ContratoMapper.toDTO(existente);
     }
 
-    public void arquivarContrato(Long idContrato) {
-        Contrato contrato = contratoRepository.findById(idContrato)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Contrato não encontrado com ID: " + idContrato));
+    @Override
+    @Transactional
+    public void deletar(Long id) {
+        Contrato contrato = contratoRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Contrato não encontrado com ID " + id));
+        contratoRepository.delete(contrato);
+    }
 
-        contrato.setStatus(StatusContrato.ARQUIVADO);
+    @Override
+    @Transactional
+    public void arquivarContrato(Long id) {
+        Contrato contrato = contratoRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Contrato não encontrado com ID " + id));
+
+        contrato.setStatusContrato(StatusContrato.ARQUIVADO);
         contratoRepository.save(contrato);
     }
 
     @Override
-    public ContratoResponseDTO atualizar(Long id, ContratoCreateDTO dto) {
-        Contrato contratoExistente = contratoRepository.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Contrato não encontrado com ID " + id));
-
-        Colaborador responsavel = colaboradorRepository.findById(dto.getResponsavelId())
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Responsável não encontrado."));
-
-        Empresa orgao = orgaoRepository.findById(dto.getEmpresaId())
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Órgão contratante não encontrado."));
-
-        contratoExistente.setPrazo(dto.getPrazo());
-        contratoExistente.setStatus(dto.getStatus());
-        contratoExistente.setValor(dto.getValor());
-        contratoExistente.setResponsavel(responsavel);
-        contratoExistente.setEmpresa(orgao);
-
-        contratoExistente = contratoRepository.save(contratoExistente);
-
-        return ContratoMapper.toDTO(contratoExistente);
-    }
-
-    public void verificarContratosProximosDoFim() {
-        List<Contrato> contratos = contratoRepository.findAll();
-
-        LocalDate hoje = LocalDate.now();
-
-        for (Contrato contrato : contratos) {
-            if (contrato.getPrazo() != null && !contrato.getStatus().equals(StatusContrato.ARQUIVADO)) {
-                LocalDate prazo = contrato.getPrazo();
-                if (prazo.minusDays(7).isEqual(hoje)) {
-                    Colaborador responsavel = contrato.getResponsavel();
-                    if (responsavel != null && responsavel.getEmail() != null) {
-                        emailService.enviarAvisoContrato(
-                                responsavel.getEmail(),
-                                responsavel.getNome(),
-                                "ID " + contrato.getIdContrato()
-                        );
-                    }
-                }
-            }
-        }
+    public List<ContratoResponseDTO> listarContratosArquivados() {
+        return contratoRepository.findByStatusContrato(StatusContrato.ARQUIVADO)
+                .stream()
+                .map(ContratoMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }
 

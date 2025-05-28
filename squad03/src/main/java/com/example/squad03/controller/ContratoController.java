@@ -19,52 +19,72 @@ import java.util.List;
 @RequiredArgsConstructor
 @Tag(name = "Contratos", description = "Operações relacionadas a contratos")
 public class ContratoController {
+
     private final ContratoService service;
 
     @Operation(summary = "Cria um novo contrato")
-    @ApiResponses(value = {
+    @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Contrato criado com sucesso"),
             @ApiResponse(responseCode = "400", description = "Dados inválidos")
     })
     @PostMapping
-    public ResponseEntity<ContratoResponseDTO> criar(@Valid @RequestBody ContratoCreateDTO dto){
+    public ResponseEntity<ContratoResponseDTO> criar(
+            @Valid @RequestBody ContratoCreateDTO dto
+    ) {
         ContratoResponseDTO response = service.criarContrato(dto);
-        return ResponseEntity.status(201).body(response);
+        return ResponseEntity
+                .status(201)
+                // opcionalmente você pode adicionar Header Location:
+                // .header("Location", "/api/contrato/" + response.getIdContrato())
+                .body(response);
     }
 
-    @Operation(summary = "Buscar contrato por id")
-    @ApiResponses(value = {
+    @Operation(summary = "Buscar contrato por ID")
+    @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Contrato encontrado"),
             @ApiResponse(responseCode = "404", description = "Contrato não encontrado")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<ContratoResponseDTO> buscarPorId(@PathVariable Long id){
-        ContratoResponseDTO response = service.buscarPorId(id);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<ContratoResponseDTO> buscarPorId(
+            @PathVariable Long id
+    ) {
+        return ResponseEntity.ok(service.buscarPorId(id));
     }
 
     @Operation(summary = "Lista todos os contratos")
     @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso")
     @GetMapping
-    public ResponseEntity<List<ContratoResponseDTO>> listarTodos(){
-        List<ContratoResponseDTO> lista = service.listarTodos();
-        return ResponseEntity.ok(lista);
+    public ResponseEntity<List<ContratoResponseDTO>> listarTodos() {
+        return ResponseEntity.ok(service.listarTodos());
     }
 
     @Operation(summary = "Atualiza um contrato existente")
-    @ApiResponses(value = {
+    @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Contrato atualizado com sucesso"),
             @ApiResponse(responseCode = "400", description = "Dados inválidos"),
             @ApiResponse(responseCode = "404", description = "Contrato não encontrado")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<ContratoResponseDTO> atualizar(@PathVariable Long id, @Valid @RequestBody ContratoCreateDTO dto) {
-        ContratoResponseDTO response = service.atualizar(id, dto);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<ContratoResponseDTO> atualizar(
+            @PathVariable Long id,
+            @Valid @RequestBody ContratoCreateDTO dto
+    ) {
+        return ResponseEntity.ok(service.atualizar(id, dto));
     }
 
-    @Operation(summary = "Contrato arquivado com sucesso")
-    @ApiResponses(value = {
+    @Operation(summary = "Deleta um contrato")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Contrato deletado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Contrato não encontrado")
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        service.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Arquiva um contrato")
+    @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Contrato arquivado com sucesso"),
             @ApiResponse(responseCode = "404", description = "Contrato não encontrado")
     })
@@ -74,11 +94,10 @@ public class ContratoController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Lista contratos arquivados")
+    @ApiResponse(responseCode = "200", description = "Lista de contratos arquivados retornada com sucesso")
     @GetMapping("/arquivados")
-    @Operation(summary = "Listar contratos arquivados")
     public ResponseEntity<List<ContratoResponseDTO>> listarArquivados() {
-        List<ContratoResponseDTO> dtos = service.listarContratosArquivados();
-        return ResponseEntity.ok(dtos);
+        return ResponseEntity.ok(service.listarContratosArquivados());
     }
-
 }
