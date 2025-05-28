@@ -2,13 +2,16 @@ package com.example.squad03.service.impl;
 
 import com.example.squad03.dto.EmpresaCreateDTO;
 import com.example.squad03.dto.EmpresaResponseDTO;
+import com.example.squad03.dto.RepresentanteCreateDTO;
 import com.example.squad03.exception.RecursoNaoEncontradoException;
 import com.example.squad03.mapper.EmpresaMapper;
 import com.example.squad03.model.Empresa;
 import com.example.squad03.model.Representante;
 import com.example.squad03.repository.EmpresaRepository;
+import com.example.squad03.repository.RepresentanteRepository;
 import com.example.squad03.service.EmpresaService;
 import com.example.squad03.util.ValidadorDocumentoUtil;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,7 @@ import java.util.stream.Collectors;
 public class EmpresaServiceImpl implements EmpresaService {
 
     private final EmpresaRepository repository;
+    private final RepresentanteRepository representanteRepository;
 
     @Override
     public EmpresaResponseDTO criarOrgao(EmpresaCreateDTO dto) {
@@ -71,6 +75,35 @@ public class EmpresaServiceImpl implements EmpresaService {
         existente.setEstado(dto.getEstado());
         existente.setCidade(dto.getCidade());
         existente = repository.save(existente);
+
+
+        if (dto.getRepresentantes() != null) {
+            for (RepresentanteCreateDTO representanteDTO : dto.getRepresentantes()) {
+                Representante representante;
+
+                if (representanteDTO.getId() != null) {
+
+                    representante = representanteRepository.findById(representanteDTO.getId())
+                            .orElseThrow(() -> new EntityNotFoundException("Representante com ID " + representanteDTO.getId() + " não encontrado"));
+
+                    representante.setNome(representanteDTO.getNome());
+                    representante.setCpf(representanteDTO.getCpf());
+                    representante.setEmail(representanteDTO.getEmail());
+                    representante.setTelefone(representanteDTO.getTelefone());
+                } else {
+
+                    representante = new Representante();
+                    representante.setNome(representanteDTO.getNome());
+                    representante.setCpf(representanteDTO.getCpf());
+                    representante.setEmail(representanteDTO.getEmail());
+                    representante.setTelefone(representanteDTO.getTelefone());
+                    representante.setEmpresa(existente);
+                }
+
+                representanteRepository.save(representante);
+            }
+        }
+
 
         return EmpresaMapper.toDTO(existente);
     }

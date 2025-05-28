@@ -7,6 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RepresentanteCreateDTO {
+
+    private Long id;
+
     @NotNull
     private String nome;
 
