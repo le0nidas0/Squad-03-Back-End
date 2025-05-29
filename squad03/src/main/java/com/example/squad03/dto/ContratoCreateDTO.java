@@ -33,6 +33,9 @@ public class ContratoCreateDTO {
     @Schema(description = "Termos de pagamento", example = "30 dias após entrega")
     private String termosDePagamento;
 
+    @Schema(description = "Valor pago até o momento", example = "50000.00")
+    private BigDecimal valorTotalPago;
+
     @NotNull
     @Schema(description = "Valor total do contrato", example = "100000.00")
     private BigDecimal valorContrato;

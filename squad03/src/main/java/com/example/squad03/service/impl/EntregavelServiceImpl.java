@@ -88,6 +88,7 @@ public class EntregavelServiceImpl implements EntregavelService {
         Entregavel existente = entregavelRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Entregável não encontrado com ID " + id));
 
+        existente.setTitulo(dto.getTitulo());
         existente.setDescricao(dto.getDescricao());
         existente.setPrazoEntrega(LocalDate.parse(dto.getPrazoEntrega()));
         existente.setStatus(dto.getStatus());
