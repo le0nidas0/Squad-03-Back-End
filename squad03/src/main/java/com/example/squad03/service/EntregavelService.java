@@ -11,5 +11,6 @@ public interface EntregavelService {
     EntregavelResponseDTO buscarPorId(Long id);
     List<EntregavelResponseDTO> buscarPorContratoId(Long contratoId);
     EntregavelResponseDTO atualizar(Long id, EntregavelCreateDTO dto);
+    List<EntregavelResponseDTO> buscarPorResponsavelId(Long responsavelId);
     void deletar(Long id);
 }

@@ -23,6 +23,10 @@ public class EntregavelCreateDTO {
     private String status;
 
     @NotNull
+    @Schema(description = "ID do colaborador responsável pelo entregável")
+    private Long responsavelId;
+
+    @NotNull
     @Schema(description = "ID do contrato associado ao entregável")
     private Long contratoId;
 }
