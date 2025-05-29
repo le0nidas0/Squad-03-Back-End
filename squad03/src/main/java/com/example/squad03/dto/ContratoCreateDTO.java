@@ -67,7 +67,7 @@ public class ContratoCreateDTO {
     @Schema(description = "ID do colaborador responsável")
     private Long responsavelId;
 
-    @NotNull
-    @Schema(description = "ID do representante")
-    private Long representanteId;
+//    @NotNull
+//    @Schema(description = "ID do representante")
+//    private Long representanteId;
 }

@@ -87,9 +87,9 @@ public class Contrato {
     @JoinColumn(name = "id_funcionario", nullable = false)
     private Colaborador responsavel;
 
-    @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
-    private Representante representante;
+//    @ManyToOne
+//    @JoinColumn(name = "id", nullable = false)
+//    private Representante representante;
 
     @OneToMany(mappedBy = "contrato", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Entregavel> entregaveis = new ArrayList<>();
