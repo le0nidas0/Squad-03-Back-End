@@ -50,7 +50,7 @@ public class ContratoCreateDTO {
     private String motivoCancelamento;
 
     @NotNull
-    @Schema(description = "Status do contrato", example = "ATIVO", allowableValues = {"ATIVO", "INATIVO", "ENCERRADO"})
+    @Schema(description = "Status do contrato", example = "ATIVO", allowableValues = {"ATIVO","INATIVO","ENCERRADO"})
     private StatusContrato statusContrato;
 
     @Schema(description = "Tipo do contrato", example = "Serviços")
@@ -59,9 +59,6 @@ public class ContratoCreateDTO {
     @Schema(description = "Tags/keywords CSV", example = "TI,Terceirização")
     private String tags;
 
-    @Schema(description = "URL do documento (PDF, S3, etc.)", example = "https://bucket.s3.amazonaws.com/contratos/ct-2025-0001.pdf")
-    private String documentUrl;
-
     @NotNull
     @Schema(description = "ID da empresa")
     private Long empresaId;
@@ -69,8 +66,4 @@ public class ContratoCreateDTO {
     @NotNull
     @Schema(description = "ID do colaborador responsável")
     private Long responsavelId;
-
-//    @NotNull
-//    @Schema(description = "ID do representante")
-//    private Long representanteId;
 }

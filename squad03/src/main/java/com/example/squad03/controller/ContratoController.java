@@ -33,11 +33,7 @@ public class ContratoController {
             @Valid @RequestBody ContratoCreateDTO dto
     ) {
         ContratoResponseDTO response = service.criarContrato(dto);
-        return ResponseEntity
-                .status(201)
-                // opcionalmente você pode adicionar Header Location:
-                // .header("Location", "/api/contrato/" + response.getIdContrato())
-                .body(response);
+        return ResponseEntity.status(201).body(response);
     }
 
     @Operation(summary = "Buscar contrato por ID")
@@ -94,6 +90,7 @@ public class ContratoController {
         service.arquivarContrato(id);
         return ResponseEntity.noContent().build();
     }
+
     @Operation(summary = "Lista contratos por status")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Contratos filtrados por status retornados com sucesso"),
@@ -103,7 +100,6 @@ public class ContratoController {
     public ResponseEntity<List<ContratoResponseDTO>> buscarPorStatus(@PathVariable StatusContrato status) {
         return ResponseEntity.ok(service.buscarPorStatus(status));
     }
-
 
     @Operation(summary = "Lista contratos arquivados")
     @ApiResponse(responseCode = "200", description = "Lista de contratos arquivados retornada com sucesso")
