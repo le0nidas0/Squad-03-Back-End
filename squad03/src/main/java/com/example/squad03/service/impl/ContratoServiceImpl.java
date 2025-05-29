@@ -103,6 +103,7 @@ public class ContratoServiceImpl implements ContratoService {
         existente.setDataFim(dto.getDataFim());
         existente.setTermosDePagamento(dto.getTermosDePagamento());
         existente.setValorContrato(dto.getValorContrato());
+        existente.setValorTotalPago(dto.getValorTotalPago() != null ? dto.getValorTotalPago() : BigDecimal.ZERO);
         existente.setAutoRenovacao(dto.getAutoRenovacao());
         existente.setDiasParaCancelamento(dto.getDiasParaCancelamento());
         existente.setMotivoCancelamento(dto.getMotivoCancelamento());
