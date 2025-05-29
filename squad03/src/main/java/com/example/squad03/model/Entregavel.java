@@ -20,6 +20,9 @@ public class Entregavel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEntregavel;
 
+    @Column(name = "titulo", nullable = false, length = 100)
+    private String titulo;
+
     @Column(name = "descricao", nullable = false, columnDefinition = "TEXT")
     private String descricao;
 

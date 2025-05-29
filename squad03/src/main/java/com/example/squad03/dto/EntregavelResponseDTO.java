@@ -14,6 +14,9 @@ public class EntregavelResponseDTO {
     @Schema(description = "ID do entregável", example = "1")
     private Long idEntregavel;
 
+    @Schema(description = "Título do entregável", example = "Desenvolvimento do módulo de autenticação")
+    private String titulo;
+
     @Schema(description = "Descrição do entregável", example = "Desenvolvimento do módulo de autenticação")
     private String descricao;
 
