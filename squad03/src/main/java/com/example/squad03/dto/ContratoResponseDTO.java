@@ -80,6 +80,6 @@ public class ContratoResponseDTO {
     @Schema(description = "Responsável pelo contrato")
     private ColaboradorResponseDTO responsavel;
 
-    @Schema(description = "Representante associado")
-    private RepresentanteResponseDTO representante;
+//    @Schema(description = "Representante associado")
+//    private RepresentanteResponseDTO representante;
 }

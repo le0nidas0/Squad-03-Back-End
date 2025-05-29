@@ -42,11 +42,11 @@ public class ContratoServiceImpl implements ContratoService {
         Empresa empresa = empresaRepository.findById(dto.getEmpresaId())
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Empresa não encontrada com ID " + dto.getEmpresaId()));
 
-        Representante representante = representanteRepository.findById(dto.getRepresentanteId())
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Representante não encontrado com ID " + dto.getRepresentanteId()));
+//        Representante representante = representanteRepository.findById(dto.getRepresentanteId())
+//                .orElseThrow(() -> new RecursoNaoEncontradoException("Representante não encontrado com ID " + dto.getRepresentanteId()));
 
         // Mapeia DTO → entidade (sem valores pagos)
-        Contrato contrato = ContratoMapper.toEntity(dto, empresa, responsavel, representante);
+        Contrato contrato = ContratoMapper.toEntity(dto, empresa, responsavel);
 
         // inicializa valores financeiros
         contrato.setValorTotalPago(BigDecimal.ZERO);
@@ -93,8 +93,8 @@ public class ContratoServiceImpl implements ContratoService {
         Empresa empresa = empresaRepository.findById(dto.getEmpresaId())
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Empresa não encontrada com ID " + dto.getEmpresaId()));
 
-        Representante representante = representanteRepository.findById(dto.getRepresentanteId())
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Representante não encontrado com ID " + dto.getRepresentanteId()));
+//        Representante representante = representanteRepository.findById(dto.getRepresentanteId())
+//                .orElseThrow(() -> new RecursoNaoEncontradoException("Representante não encontrado com ID " + dto.getRepresentanteId()));
 
         // Atualiza campos básicos
         existente.setNumeroContrato(dto.getNumeroContrato());
@@ -113,7 +113,7 @@ public class ContratoServiceImpl implements ContratoService {
 
         existente.setEmpresa(empresa);
         existente.setResponsavel(responsavel);
-        existente.setRepresentante(representante);
+//        existente.setRepresentante(representante);
 
         // Se o valorContrato mudou, ajuste o pendente (não zera o pago)
         existente.setValorTotalPendente(

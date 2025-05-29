@@ -14,8 +14,8 @@ public class ContratoMapper {
     public static Contrato toEntity(
             ContratoCreateDTO dto,
             Empresa empresa,
-            Colaborador responsavel,
-            Representante representante
+            Colaborador responsavel
+//            Representante representante
     ) {
         Contrato c = new Contrato();
 
@@ -38,7 +38,7 @@ public class ContratoMapper {
 
         c.setEmpresa(empresa);
         c.setResponsavel(responsavel);
-        c.setRepresentante(representante);
+//        c.setRepresentante(representante);
 
         return c;
     }
@@ -69,7 +69,7 @@ public class ContratoMapper {
 
         dto.setEmpresa(EmpresaMapper.toDTO(c.getEmpresa()));
         dto.setResponsavel(ColaboradorMapper.toDTO(c.getResponsavel()));
-        dto.setRepresentante(RepresentanteMapper.toDTO(c.getRepresentante()));
+//        dto.setRepresentante(RepresentanteMapper.toDTO(c.getRepresentante()));
 
         return dto;
     }
