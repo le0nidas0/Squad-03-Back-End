@@ -62,7 +62,7 @@ public class ContratoResponseDTO {
     @Schema(description = "Usuário que atualizou por último", example = "filipe.brisio")
     private String atualizadoPor;
 
-    @Schema(description = "Status do contrato", example = "ATIVO", allowableValues = {"ATIVO", "INATIVO", "ENCERRADO"})
+    @Schema(description = "Status do contrato", example = "ATIVO", allowableValues = {"ATIVO","INATIVO","ENCERRADO"})
     private StatusContrato statusContrato;
 
     @Schema(description = "Tipo do contrato", example = "Serviços")
@@ -71,15 +71,9 @@ public class ContratoResponseDTO {
     @Schema(description = "Tags/keywords CSV", example = "TI,Terceirização")
     private String tags;
 
-    @Schema(description = "URL do documento", example = "https://bucket.s3.amazonaws.com/contratos/ct-2025-0001.pdf")
-    private String documentUrl;
-
     @Schema(description = "Empresa associada")
     private EmpresaResponseDTO empresa;
 
     @Schema(description = "Responsável pelo contrato")
     private ColaboradorResponseDTO responsavel;
-
-//    @Schema(description = "Representante associado")
-//    private RepresentanteResponseDTO representante;
 }

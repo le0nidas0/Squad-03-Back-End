@@ -1,4 +1,5 @@
 package com.example.squad03.model;
+
 import com.example.squad03.enums.StatusContrato;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,6 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Contrato {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idContrato;
@@ -47,7 +49,7 @@ public class Contrato {
     @Column(name = "valor_total_pendente")
     private BigDecimal valorTotalPendente;
 
-    @Column(name = "data_renovacao")
+    @Column(name = "auto_renovacao")
     private Boolean autoRenovacao;
 
     @Column(name = "dias_para_cancelamento")
@@ -87,9 +89,10 @@ public class Contrato {
     @JoinColumn(name = "id_funcionario", nullable = false)
     private Colaborador responsavel;
 
-//    @ManyToOne
-//    @JoinColumn(name = "id", nullable = false)
-//    private Representante representante;
+    // campo de Representante comentado se não for mais usado
+    // @ManyToOne
+    // @JoinColumn(name = "id_representante")
+    // private Representante representante;
 
     @OneToMany(mappedBy = "contrato", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Entregavel> entregaveis = new ArrayList<>();
@@ -97,11 +100,12 @@ public class Contrato {
     @OneToMany(mappedBy = "contrato", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AditivoContractual> aditivos = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "contrato", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Notificacao> notificacoes = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "contrato", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Documento> documentos = new ArrayList<>();
+    // notificações e documentos reativados, se quiser
+    // @OneToMany(mappedBy = "contrato", cascade = CascadeType.ALL, orphanRemoval = true)
+    // private List<Notificacao> notificacoes = new ArrayList<>();
+
+    // @OneToMany(mappedBy = "contrato", cascade = CascadeType.ALL, orphanRemoval = true)
+    // private List<Documento> documentos = new ArrayList<>();
 
     public void addEntregavel(Entregavel e) {
         entregaveis.add(e);
@@ -113,7 +117,6 @@ public class Contrato {
         e.setContrato(null);
     }
 
-    // Helper para adicionar aditivos
     public void addAditivo(AditivoContractual a) {
         aditivos.add(a);
         a.setContrato(this);
@@ -123,5 +126,4 @@ public class Contrato {
         aditivos.remove(a);
         a.setContrato(null);
     }
-
 }
