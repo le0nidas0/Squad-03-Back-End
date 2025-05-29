@@ -10,6 +10,9 @@ import lombok.Setter;
 @Schema(description = "Dados para criação de um Entregável")
 public class EntregavelCreateDTO {
 
+    @Schema(description = "título do entregável", example = "Desenvolvimento do módulo de autenticação")
+    private String titulo;
+
     @NotNull
     @Schema(description = "Descrição do entregável", example = "Desenvolvimento do módulo de autenticação")
     private String descricao;

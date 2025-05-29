@@ -12,6 +12,7 @@ public class EntregavelMapper {
 
     public static Entregavel toEntity(EntregavelCreateDTO dto, Contrato contrato, Colaborador colaborador) {
         Entregavel e = new Entregavel();
+        e.setTitulo(dto.getTitulo());
         e.setDescricao(dto.getDescricao());
         e.setPrazoEntrega(LocalDate.parse(dto.getPrazoEntrega()));
         e.setStatus(dto.getStatus());
@@ -23,6 +24,7 @@ public class EntregavelMapper {
     public static EntregavelResponseDTO toDTO(Entregavel e) {
         EntregavelResponseDTO dto = new EntregavelResponseDTO();
         dto.setIdEntregavel(e.getIdEntregavel());
+        dto.setTitulo(e.getTitulo());
         dto.setDescricao(e.getDescricao());
         dto.setPrazoEntrega(e.getPrazoEntrega());
         dto.setStatus(e.getStatus());
