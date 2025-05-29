@@ -4,8 +4,10 @@ import com.example.squad03.dto.EntregavelCreateDTO;
 import com.example.squad03.dto.EntregavelResponseDTO;
 import com.example.squad03.exception.RecursoNaoEncontradoException;
 import com.example.squad03.mapper.EntregavelMapper;
+import com.example.squad03.model.Colaborador;
 import com.example.squad03.model.Contrato;
 import com.example.squad03.model.Entregavel;
+import com.example.squad03.repository.ColaboradorRepository;
 import com.example.squad03.repository.ContratoRepository;
 import com.example.squad03.repository.EntregavelRepository;
 import com.example.squad03.service.EntregavelService;
@@ -23,6 +25,7 @@ public class EntregavelServiceImpl implements EntregavelService {
 
     private final EntregavelRepository entregavelRepository;
     private final ContratoRepository contratoRepository;
+    private final ColaboradorRepository colaboradorRepository;
 
     @Override
     @Transactional
@@ -30,7 +33,10 @@ public class EntregavelServiceImpl implements EntregavelService {
         Contrato contrato = contratoRepository.findById(dto.getContratoId())
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Contrato não encontrado com ID " + dto.getContratoId()));
 
-        Entregavel e = EntregavelMapper.toEntity(dto, contrato);
+        Colaborador colaborador = colaboradorRepository.findById(dto.getResponsavelId())
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Colaborador não encontrado com ID " + dto.getResponsavelId()));
+
+        Entregavel e = EntregavelMapper.toEntity(dto, contrato, colaborador);
         e = entregavelRepository.save(e);
         return EntregavelMapper.toDTO(e);
     }
@@ -59,6 +65,19 @@ public class EntregavelServiceImpl implements EntregavelService {
 
         // busca os entregáveis vinculados
         return entregavelRepository.findAllByContrato_idContrato(contratoId).stream()
+                .map(EntregavelMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<EntregavelResponseDTO> buscarPorResponsavelId(Long responsavelId) {
+        // verifica se o colaborador existe
+        colaboradorRepository.findById(responsavelId)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Colaborador não encontrado com ID " + responsavelId));
+
+        // busca os entregáveis vinculados
+        return entregavelRepository.findAllByResponsavel_idFuncionario(responsavelId).stream()
                 .map(EntregavelMapper::toDTO)
                 .collect(Collectors.toList());
     }

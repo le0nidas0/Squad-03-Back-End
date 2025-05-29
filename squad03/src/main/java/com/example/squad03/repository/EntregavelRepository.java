@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface EntregavelRepository extends JpaRepository<Entregavel, Long> {
     List<Entregavel> findAllByContrato_idContrato(Long idContrato);
+    List<Entregavel> findAllByResponsavel_idFuncionario(Long idFuncionario);
 }

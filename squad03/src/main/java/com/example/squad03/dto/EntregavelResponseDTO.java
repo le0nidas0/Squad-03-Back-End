@@ -23,6 +23,9 @@ public class EntregavelResponseDTO {
     @Schema(description = "Status do entregável", example = "PENDENTE", allowableValues = {"PENDENTE", "EM_ANDAMENTO", "CONCLUIDO"})
     private String status;
 
+    @Schema(description = "ID do colaborador responsável pelo entregável", example = "1")
+    private Long responsavelId;
+
     @Schema(description = "ID do contrato associado ao entregável", example = "1")
     private Long contratoId;
 }

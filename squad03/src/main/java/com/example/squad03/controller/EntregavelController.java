@@ -49,9 +49,24 @@ public class EntregavelController {
         return ResponseEntity.ok(service.buscarPorId(id));
     }
 
+    @Operation(summary = "Lista entregáveis por responsável")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Lista de entregáveis encontrada"),
+            @ApiResponse(responseCode = "404", description = "Nenhum entregável encontrado para o responsável")
+    })
+    @GetMapping("/responsaveis/{responsavelId}")
+    public ResponseEntity<List<EntregavelResponseDTO>> listarPorResponsavel(@PathVariable Long responsavelId) {
+        List<EntregavelResponseDTO> lista = service.buscarPorResponsavelId(responsavelId);
+        return ResponseEntity.ok(lista);
+    }
+
+    @Operation(summary = "Lista entregáveis por contrato")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Lista de entregáveis encontrada"),
+            @ApiResponse(responseCode = "404", description = "Nenhum entregável encontrado para o contrato")
+    })
     @GetMapping("/contratos/{contratoId}")
-    public ResponseEntity<List<EntregavelResponseDTO>>
-    listarPorContrato(@PathVariable Long contratoId) {
+    public ResponseEntity<List<EntregavelResponseDTO>> listarPorContrato(@PathVariable Long contratoId) {
         List<EntregavelResponseDTO> lista = service.buscarPorContratoId(contratoId);
         return ResponseEntity.ok(lista);
     }

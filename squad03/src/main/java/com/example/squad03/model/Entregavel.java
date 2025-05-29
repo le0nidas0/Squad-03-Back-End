@@ -1,6 +1,7 @@
 package com.example.squad03.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,10 @@ public class Entregavel {
 
     @Column(name = "status", nullable = false)
     private String status;
+
+    @ManyToOne
+    @JoinColumn(name = "idFuncionario", nullable = false)
+    private Colaborador responsavel;
 
     @ManyToOne
     @JoinColumn(name = "contrato_id", nullable = false)
