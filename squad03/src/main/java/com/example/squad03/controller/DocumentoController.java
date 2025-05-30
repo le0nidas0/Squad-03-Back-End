@@ -1,81 +1,67 @@
 package com.example.squad03.controller;
 
-import com.example.squad03.dto.DocumentoCreateDTO;
 import com.example.squad03.dto.DocumentoResponseDTO;
 import com.example.squad03.service.DocumentoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/documento")
 @RequiredArgsConstructor
-@Tag(name = "Documentos", description = "Operações relacionadas a documentos de contrato")
+@Tag(name = "Documentos", description = "Operações relacionadas a documentos anexados a contratos")
 public class DocumentoController {
 
     private final DocumentoService service;
 
-    @Operation(summary = "Cria um novo documento para um contrato")
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "Documento criado com sucesso"),
-            @ApiResponse(responseCode = "400", description = "Dados inválidos"),
-            @ApiResponse(responseCode = "404", description = "Contrato não encontrado")
-    })
-    @PostMapping
-    public ResponseEntity<DocumentoResponseDTO> criar(@Valid @RequestBody DocumentoCreateDTO dto) {
-        DocumentoResponseDTO resp = service.criarDocumento(dto);
-        return ResponseEntity.status(201).body(resp);
+    @Operation(summary = "Anexa um PDF a um contrato")
+    @ApiResponse(responseCode = "201", description = "Documento anexado com sucesso")
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<DocumentoResponseDTO> upload(
+            @RequestParam @NotNull Long contratoId,
+            @RequestPart("file") MultipartFile file
+    ) {
+        DocumentoResponseDTO dto = service.anexarDocumento(contratoId, file);
+        return ResponseEntity.status(201).body(dto);
     }
 
-    @Operation(summary = "Busca documento por ID")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Documento encontrado"),
-            @ApiResponse(responseCode = "404", description = "Documento não encontrado")
-    })
-    @GetMapping("/{id}")
-    public ResponseEntity<DocumentoResponseDTO> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(service.buscarPorId(id));
-    }
+    @Operation(summary = "Download de um PDF anexado")
+    @ApiResponse(responseCode = "200", description = "PDF retornado com sucesso")
+    @GetMapping("/{id}/download")
+    public ResponseEntity<byte[]> download(@PathVariable Long id) {
+        // Metadados (nome, mime)
+        DocumentoResponseDTO meta = service.buscarPorId(id);
+        // Conteúdo bruto
+        byte[] dados = service.buscarDados(id);
 
-    @Operation(summary = "Lista todos os documentos")
-    @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso")
-    @GetMapping
-    public ResponseEntity<List<DocumentoResponseDTO>> listarTodos() {
-        return ResponseEntity.ok(service.listarTodos());
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(meta.getMimeType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" + meta.getNomeArquivo() + "\"")
+                .body(dados);
     }
 
     @Operation(summary = "Lista documentos de um contrato")
     @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso")
     @GetMapping("/contrato/{contratoId}")
-    public ResponseEntity<List<DocumentoResponseDTO>> listarPorContrato(@PathVariable Long contratoId) {
-        return ResponseEntity.ok(service.listarPorContrato(contratoId));
-    }
-
-    @Operation(summary = "Atualiza um documento existente")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Documento atualizado com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Documento ou contrato não encontrado")
-    })
-    @PutMapping("/{id}")
-    public ResponseEntity<DocumentoResponseDTO> atualizar(
-            @PathVariable Long id,
-            @Valid @RequestBody DocumentoCreateDTO dto
+    public ResponseEntity<List<DocumentoResponseDTO>> listar(
+            @PathVariable Long contratoId
     ) {
-        return ResponseEntity.ok(service.atualizar(id, dto));
+        List<DocumentoResponseDTO> lista = service.listarPorContrato(contratoId);
+        return ResponseEntity.ok(lista);
     }
 
     @Operation(summary = "Deleta um documento")
-    @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Documento deletado com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Documento não encontrado")
-    })
+    @ApiResponse(responseCode = "204", description = "Documento deletado com sucesso")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         service.deletar(id);

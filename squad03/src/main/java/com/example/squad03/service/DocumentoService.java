@@ -2,14 +2,13 @@ package com.example.squad03.service;
 
 import com.example.squad03.dto.DocumentoCreateDTO;
 import com.example.squad03.dto.DocumentoResponseDTO;
-
 import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface DocumentoService {
-    DocumentoResponseDTO criarDocumento(DocumentoCreateDTO dto);
+    DocumentoResponseDTO anexarDocumento(Long contratoId, MultipartFile file);
     DocumentoResponseDTO buscarPorId(Long id);
-    List<DocumentoResponseDTO> listarTodos();
     List<DocumentoResponseDTO> listarPorContrato(Long contratoId);
-    DocumentoResponseDTO atualizar(Long id, DocumentoCreateDTO dto);
     void deletar(Long id);
+    byte[] buscarDados(Long idDocumento);
 }
