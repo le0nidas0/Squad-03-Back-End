@@ -107,4 +107,11 @@ public class ContratoController {
     public ResponseEntity<List<ContratoResponseDTO>> listarArquivados() {
         return ResponseEntity.ok(service.listarContratosArquivados());
     }
+
+    @Operation(summary = "Lista contratos não arquivados")
+    @ApiResponse(responseCode = "200", description = "Lista de contratos não arquivados retornada com sucesso")
+    @GetMapping("/nao-arquivados")
+    public ResponseEntity<List<ContratoResponseDTO>> listarNaoArquivados() {
+        return ResponseEntity.ok(service.listarContratosNaoArquivados());
+    }
 }

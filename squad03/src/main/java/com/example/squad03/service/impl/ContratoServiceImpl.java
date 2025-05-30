@@ -178,4 +178,13 @@ public class ContratoServiceImpl implements ContratoService {
                 .map(ContratoMapper::toDTO)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ContratoResponseDTO> listarContratosNaoArquivados() {
+        return contratoRepository.findByStatusContratoNot(StatusContrato.ARQUIVADO)
+                .stream()
+                .map(ContratoMapper::toDTO)
+                .collect(Collectors.toList());
+    }
 }
