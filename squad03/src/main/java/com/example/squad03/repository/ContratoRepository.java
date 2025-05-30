@@ -14,6 +14,7 @@ public interface ContratoRepository extends JpaRepository<Contrato, Long> {
 
     List<Contrato> findByResponsavel_IdFuncionario(Long idFuncionario);
 
-
     List<Contrato> findByStatusContrato(StatusContrato statusContrato);
+
+    List<Contrato> findByStatusContratoNot(StatusContrato statusContrato);
 }

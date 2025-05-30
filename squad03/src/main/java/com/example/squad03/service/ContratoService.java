@@ -20,6 +20,8 @@ public interface ContratoService {
 
     List<ContratoResponseDTO> listarContratosArquivados();
 
+    List<ContratoResponseDTO> listarContratosNaoArquivados();
+
     void arquivarContrato(Long id);
 
     void deletar(Long id);
