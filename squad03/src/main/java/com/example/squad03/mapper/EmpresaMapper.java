@@ -15,7 +15,7 @@ public class EmpresaMapper {
         dto.setNomeFantasia(entity.getNomeFantasia());
         dto.setRazaoSocial(entity.getRazaoSocial());
         dto.setCnpj(entity.getCnpj());
-        dto.setNumeroEmpresa(entity.getNumeroEmpresa());
+//        dto.setNumeroEmpresa(entity.getNumeroEmpresa());
         dto.setEstado(entity.getEstado());
         dto.setCidade(entity.getCidade());
         dto.setCep(entity.getCep());
@@ -46,7 +46,7 @@ public class EmpresaMapper {
         entity.setBairro(dto.getBairro());
         entity.setLogradouro(dto.getLogradouro());
         entity.setNumero(dto.getNumero());
-        entity.setNumeroEmpresa(dto.getNumeroEmpresa());
+//        entity.setNumeroEmpresa(dto.getNumeroEmpresa());
         entity.setComplemento(dto.getComplemento());
         entity.setEstado(dto.getEstado());
         entity.setCidade(dto.getCidade());

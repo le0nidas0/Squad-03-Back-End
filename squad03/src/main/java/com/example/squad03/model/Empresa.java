@@ -23,7 +23,7 @@ public class Empresa {
 
     private String nomeFantasia;
     private String razaoSocial;
-    private String numeroEmpresa;
+//    private String numeroEmpresa;
     private String estado;
     private String cidade;
     private String inscricaoMunicipal;

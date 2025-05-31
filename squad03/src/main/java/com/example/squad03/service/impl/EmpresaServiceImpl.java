@@ -71,7 +71,7 @@ public class EmpresaServiceImpl implements EmpresaService {
 
         existente.setNomeFantasia(dto.getNomeFantasia());
         existente.setRazaoSocial(dto.getRazaoSocial());
-        existente.setNumeroEmpresa(dto.getNumeroEmpresa());
+//        existente.setNumeroEmpresa(dto.getNumeroEmpresa());
         existente.setEstado(dto.getEstado());
         existente.setCidade(dto.getCidade());
         existente = repository.save(existente);

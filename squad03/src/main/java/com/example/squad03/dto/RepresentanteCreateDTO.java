@@ -22,6 +22,5 @@ public class RepresentanteCreateDTO {
     @NotNull
     private String telefone;
 
-    @NotNull
     private Long idOrgaoContratante;
 }

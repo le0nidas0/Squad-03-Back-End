@@ -2,6 +2,7 @@ package com.example.squad03.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,9 +25,9 @@ public class EmpresaCreateDTO {
     @Schema(description = "CNPJ da empresa", example = "12.345.678/0001-90")
     private String cnpj;
 
-    @NotBlank
-    @Schema(description = "Número da empresa", example = "123456789")
-    private String numeroEmpresa;
+//    @NotBlank
+//    @Schema(description = "Número da empresa", example = "123456789")
+//    private String numeroEmpresa;
 
     @NotBlank
     @Schema(description = "Estado", example = "Sergipe")
@@ -71,7 +72,7 @@ public class EmpresaCreateDTO {
     @Schema(description = "telefone da empresa", example = "(79)9 9999-9999")
     private String telefone;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "Nome do responsável pela empresa", example = "João da Silva")
     private List<RepresentanteCreateDTO> representantes;
 
