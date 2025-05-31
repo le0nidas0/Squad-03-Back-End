@@ -1,37 +1,64 @@
 package com.example.squad03.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+@Entity
 @Table(name = "aditivo_contratual")
-@Entity(name = "AditivoContractual")
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class AditivoContractual {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idAditivoContractual;
 
-    @Column(name = "tipo", nullable = false)
+    @Column(name = "tipo", nullable = false, length = 50)
     private String tipo;
 
-    @Column(name = "justificativa", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "descricao_mudancas", columnDefinition = "TEXT", nullable = false)
+    private String descricaoMudancas;
+
+    @Column(name = "justificativa", columnDefinition = "TEXT", nullable = false)
     private String justificativa;
 
-    @Column(name = "criado_em", nullable = false)
+    @Column(name = "data_vigencia", nullable = false)
+    private LocalDate dataVigencia;
+
+    @CreatedDate
+    @Column(name = "criado_em", nullable = false, updatable = false)
     private LocalDateTime criadoEm;
 
-    @ManyToOne
-    @JoinColumn(name = "contrato_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idContrato", nullable = false)
     private Contrato contrato;
 
-    @Column(name = "responsavel_id", nullable = false)
-    private Long responsavelId;
+    // Relacionamento One-to-Many para os arquivos deste aditivo
+    @OneToMany(
+            mappedBy = "aditivo",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<AditivoDocumento> documentos = new ArrayList<>();
+
+    // Helper para manter bidirecionalidade
+    public void addDocumento(AditivoDocumento doc) {
+        documentos.add(doc);
+        doc.setAditivo(this);
+    }
+
+    public void removeDocumento(AditivoDocumento doc) {
+        documentos.remove(doc);
+        doc.setAditivo(null);
+    }
 }
