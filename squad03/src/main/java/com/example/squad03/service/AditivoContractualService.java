@@ -11,7 +11,7 @@ public interface AditivoContractualService {
 
     AditivoContractualResponseDTO buscarPorId(Long id);
 
-    List<AditivoContractualResponseDTO> listarTodos();
+    List<AditivoContractualResponseDTO> listarPorContrato(Long contratoId);
 
     AditivoContractualResponseDTO atualizar(Long id, AditivoContractualCreateDTO dto);
 

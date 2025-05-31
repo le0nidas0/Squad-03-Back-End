@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/aditivo-contratual")
+@RequestMapping("/api/aditivo")
 @RequiredArgsConstructor
-@Tag(name = "Aditivos Contratuais", description = "Operações relacionadas a aditivos contratuais")
+@Tag(name = "Aditivo Contratual", description = "Operações relacionadas aos aditivos contratuais")
 public class AditivoContractualController {
+
     private final AditivoContractualService service;
 
     @Operation(summary = "Cria um novo aditivo contratual")
@@ -31,18 +32,23 @@ public class AditivoContractualController {
     }
 
     @Operation(summary = "Busca aditivo por ID")
+    @ApiResponse(responseCode = "200", description = "Aditivo retornado com sucesso")
     @GetMapping("/{id}")
     public ResponseEntity<AditivoContractualResponseDTO> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(service.buscarPorId(id));
     }
 
-    @Operation(summary = "Lista todos os aditivos")
-    @GetMapping
-    public ResponseEntity<List<AditivoContractualResponseDTO>> listarTodos() {
-        return ResponseEntity.ok(service.listarTodos());
+    @Operation(summary = "Lista aditivos por contrato")
+    @ApiResponse(responseCode = "200", description = "Lista de aditivos retornada com sucesso")
+    @GetMapping("/contrato/{idContrato}")
+    public ResponseEntity<List<AditivoContractualResponseDTO>> listarPorContrato(
+            @PathVariable Long idContrato
+    ) {
+        return ResponseEntity.ok(service.listarPorContrato(idContrato));
     }
 
-    @Operation(summary = "Atualiza um aditivo existente")
+    @Operation(summary = "Atualiza um aditivo contratual")
+    @ApiResponse(responseCode = "200", description = "Aditivo atualizado com sucesso")
     @PutMapping("/{id}")
     public ResponseEntity<AditivoContractualResponseDTO> atualizar(
             @PathVariable Long id,
@@ -51,7 +57,7 @@ public class AditivoContractualController {
         return ResponseEntity.ok(service.atualizar(id, dto));
     }
 
-    @Operation(summary = "Deleta um aditivo")
+    @Operation(summary = "Deleta um aditivo contratual")
     @ApiResponse(responseCode = "204", description = "Aditivo deletado com sucesso")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {

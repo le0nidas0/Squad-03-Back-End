@@ -5,10 +5,8 @@ import com.example.squad03.dto.AditivoContractualResponseDTO;
 import com.example.squad03.exception.RecursoNaoEncontradoException;
 import com.example.squad03.mapper.AditivoContractualMapper;
 import com.example.squad03.model.AditivoContractual;
-import com.example.squad03.model.Colaborador;
 import com.example.squad03.model.Contrato;
 import com.example.squad03.repository.AditivoContractualRepository;
-import com.example.squad03.repository.ColaboradorRepository;
 import com.example.squad03.repository.ContratoRepository;
 import com.example.squad03.service.AditivoContractualService;
 import lombok.RequiredArgsConstructor;
@@ -22,72 +20,79 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AditivoContractualServiceImpl implements AditivoContractualService {
 
-    private final AditivoContractualRepository repo;
+    private final AditivoContractualRepository aditivoRepo;
     private final ContratoRepository contratoRepo;
-    private final ColaboradorRepository colaboradorRepo;
 
     @Override
     @Transactional
     public AditivoContractualResponseDTO criarAditivo(AditivoContractualCreateDTO dto) {
         Contrato contrato = contratoRepo.findById(dto.getContratoId())
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Contrato não encontrado com ID " + dto.getContratoId()));
+                .orElseThrow(() ->
+                        new RecursoNaoEncontradoException("Contrato não encontrado com ID " + dto.getContratoId())
+                );
 
-        Colaborador responsavel = colaboradorRepo.findById(dto.getResponsavelId())
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Responsável não encontrado com ID " + dto.getResponsavelId()));
+        AditivoContractual aditivo = new AditivoContractual();
+        aditivo.setTipo(dto.getTipo());
+        aditivo.setDescricaoMudancas(dto.getDescricaoMudancas());
+        aditivo.setJustificativa(dto.getJustificativa());
+        aditivo.setDataVigencia(dto.getDataVigencia());
+        aditivo.setContrato(contrato);
 
-        AditivoContractual entidade = AditivoContractualMapper.toEntity(dto, contrato, responsavel);
-        entidade = repo.save(entidade);
-
-        return AditivoContractualMapper.toDTO(entidade, responsavel);
+        aditivo = aditivoRepo.save(aditivo);
+        return AditivoContractualMapper.toDTO(aditivo);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public AditivoContractualResponseDTO buscarPorId(Long id) {
-        AditivoContractual ent = repo.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Aditivo não encontrado com ID " + id));
-
-        Colaborador responsavel = colaboradorRepo.findById(ent.getResponsavelId())
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Responsável não encontrado com ID " + ent.getResponsavelId()));
-
-        return AditivoContractualMapper.toDTO(ent, responsavel);
+        AditivoContractual aditivo = aditivoRepo.findById(id)
+                .orElseThrow(() ->
+                        new RecursoNaoEncontradoException("Aditivo não encontrado com ID " + id)
+                );
+        return AditivoContractualMapper.toDTO(aditivo);
     }
 
     @Override
-    public List<AditivoContractualResponseDTO> listarTodos() {
-        return repo.findAll().stream()
-                .map(ent -> {
-                    Colaborador resp = colaboradorRepo.findById(ent.getResponsavelId())
-                            .orElseThrow(() -> new RecursoNaoEncontradoException("Responsável não encontrado com ID " + ent.getResponsavelId()));
-                    return AditivoContractualMapper.toDTO(ent, resp);
-                })
+    @Transactional(readOnly = true)
+    public List<AditivoContractualResponseDTO> listarPorContrato(Long idContrato) {
+        List<AditivoContractual> lista = aditivoRepo.findAll().stream()
+                .filter(a -> a.getContrato().getIdContrato().equals(idContrato))
+                .collect(Collectors.toList());
+        return lista.stream()
+                .map(AditivoContractualMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
     @Transactional
     public AditivoContractualResponseDTO atualizar(Long id, AditivoContractualCreateDTO dto) {
-        AditivoContractual existente = repo.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Aditivo não encontrado com ID " + id));
+        AditivoContractual existente = aditivoRepo.findById(id)
+                .orElseThrow(() ->
+                        new RecursoNaoEncontradoException("Aditivo não encontrado com ID " + id)
+                );
 
         Contrato contrato = contratoRepo.findById(dto.getContratoId())
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Contrato não encontrado com ID " + dto.getContratoId()));
-        Colaborador responsavel = colaboradorRepo.findById(dto.getResponsavelId())
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Responsável não encontrado com ID " + dto.getResponsavelId()));
+                .orElseThrow(() ->
+                        new RecursoNaoEncontradoException("Contrato não encontrado com ID " + dto.getContratoId())
+                );
 
         existente.setTipo(dto.getTipo());
+        existente.setDescricaoMudancas(dto.getDescricaoMudancas());
         existente.setJustificativa(dto.getJustificativa());
+        existente.setDataVigencia(dto.getDataVigencia());
         existente.setContrato(contrato);
-        existente.setResponsavelId(responsavel.getIdFuncionario());
 
-        existente = repo.save(existente);
-        return AditivoContractualMapper.toDTO(existente, responsavel);
+        existente = aditivoRepo.save(existente);
+        return AditivoContractualMapper.toDTO(existente);
     }
 
     @Override
     @Transactional
     public void deletar(Long id) {
-        AditivoContractual ent = repo.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Aditivo não encontrado com ID " + id));
-        repo.delete(ent);
+        AditivoContractual aditivo = aditivoRepo.findById(id)
+                .orElseThrow(() ->
+                        new RecursoNaoEncontradoException("Aditivo não encontrado com ID " + id)
+                );
+        aditivoRepo.delete(aditivo);
     }
 }
