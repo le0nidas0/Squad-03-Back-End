@@ -27,9 +27,9 @@ public class EmpresaResponseDTO {
     @Schema(description = "CNPJ do órgão contratante", example = "12.345.678/0001-90")
     private String cnpj;
 
-    @NotBlank
-    @Schema(description = "Número da empresa", example = "123456789")
-    private String numeroEmpresa;
+//    @NotBlank
+//    @Schema(description = "Número da empresa", example = "123456789")
+//    private String numeroEmpresa;
 
     @NotBlank
     @Schema(description = "Estado", example = "Sergipe")

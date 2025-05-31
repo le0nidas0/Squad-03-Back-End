@@ -71,11 +71,25 @@ public class EmpresaServiceImpl implements EmpresaService {
 
         existente.setNomeFantasia(dto.getNomeFantasia());
         existente.setRazaoSocial(dto.getRazaoSocial());
-//        existente.setNumeroEmpresa(dto.getNumeroEmpresa());
+        existente.setCnpj(dto.getCnpj());
         existente.setEstado(dto.getEstado());
         existente.setCidade(dto.getCidade());
+        existente.setInscricaoMunicipal(dto.getInscricaoMunicipal());
+        existente.setTipoEmpresa(dto.getTipoEmpresa());
+        existente.setCep(dto.getCep());
+        existente.setBairro(dto.getBairro());
+        existente.setLogradouro(dto.getLogradouro());
+        existente.setLogradouro(dto.getLogradouro());
+        existente.setNumero(dto.getNumero());
+        existente.setComplemento(dto.getComplemento());
+        existente.setEmail(dto.getEmail());
+        existente.setTelefone(dto.getTelefone());
+//        existente.setNumeroEmpresa(dto.getNumeroEmpresa());;
         existente = repository.save(existente);
 
+        if (!ValidadorDocumentoUtil.isCnpjValido(dto.getCnpj())) {
+            throw new IllegalArgumentException("CNPJ inválido");
+        }
 
         if (dto.getRepresentantes() != null) {
             for (RepresentanteCreateDTO representanteDTO : dto.getRepresentantes()) {
