@@ -1,11 +1,14 @@
 package com.example.squad03.service.impl;
+
 import com.example.squad03.dto.ColaboradorCreateDTO;
 import com.example.squad03.dto.ColaboradorResponseDTO;
+import com.example.squad03.exception.DocumentoInvalidoException;
 import com.example.squad03.exception.RecursoNaoEncontradoException;
 import com.example.squad03.mapper.ColaboradorMapper;
 import com.example.squad03.model.Colaborador;
 import com.example.squad03.repository.ColaboradorRepository;
 import com.example.squad03.service.ColaboradorService;
+import com.example.squad03.util.ValidadorDocumentoUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,10 @@ public class ColaboradorServiceImpl implements ColaboradorService {
 
     @Override
     public ColaboradorResponseDTO criar(ColaboradorCreateDTO dto) {
+        if (!ValidadorDocumentoUtil.isCpfValido(dto.getCpf())) {
+            throw new DocumentoInvalidoException("CPF inválido do colaborador: " + dto.getNome());
+        }
+
         Colaborador colaborador = ColaboradorMapper.toEntity(dto);
         colaborador = colaboradorRepository.save(colaborador);
         return ColaboradorMapper.toDTO(colaborador);
@@ -50,6 +57,10 @@ public class ColaboradorServiceImpl implements ColaboradorService {
 
     @Override
     public ColaboradorResponseDTO atualizar(Long id, ColaboradorCreateDTO dto) {
+        if (!ValidadorDocumentoUtil.isCpfValido(dto.getCpf())) {
+            throw new IllegalArgumentException("CPF inválido");
+        }
+
         Colaborador colaborador = colaboradorRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Colaborador não encontrado com ID " + id));
 
@@ -57,6 +68,7 @@ public class ColaboradorServiceImpl implements ColaboradorService {
         colaborador.setEmail(dto.getEmail());
         colaborador.setCargo(dto.getCargo());
         colaborador.setTelefone(dto.getTelefone());
+        colaborador.setCpf(dto.getCpf());
 
         colaborador = colaboradorRepository.save(colaborador);
         return ColaboradorMapper.toDTO(colaborador);
