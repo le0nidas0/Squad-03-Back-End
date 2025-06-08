@@ -14,7 +14,6 @@ import java.time.LocalDate;
 @Schema(description = "Dados para criação de um Contrato")
 public class ContratoCreateDTO {
 
-    @NotNull
     @Schema(description = "Número do contrato", example = "CT-2025-0001")
     private String numeroContrato;
 

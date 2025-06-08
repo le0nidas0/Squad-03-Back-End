@@ -48,6 +48,16 @@ public class RepresentanteServiceImpl implements RepresentanteService {
     }
 
     @Override
+    public List<RepresentanteResponseDTO> buscarPorOrgaoId(Long idOrgao) {
+        representanteRepository.findById(idOrgao)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Órgão não encontrado com ID " + idOrgao));
+
+        return representanteRepository.findAllByEmpresa_idOrgao(idOrgao).stream()
+                .map(RepresentanteMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public String deletar(Long id) {
         Representante representante = representanteRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Representante não encontrado com ID " + id));

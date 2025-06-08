@@ -26,7 +26,7 @@ public class Contrato {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idContrato;
 
-    @Column(name = "numero_contrato", nullable = false, unique = true, length = 50)
+    @Column(name = "numero_contrato", unique = true, length = 50)
     private String numeroContrato;
 
     @Column(name = "descricao", columnDefinition = "TEXT")
@@ -38,7 +38,7 @@ public class Contrato {
     @Column(name = "data_fim", nullable = false)
     private LocalDate dataFim;
 
-    @Column(name = "termos_pagamento", length = 100)
+    @Column(name = "termos_pagamento", length = 500)
     private String termosDePagamento;
 
     private BigDecimal valorContrato;
