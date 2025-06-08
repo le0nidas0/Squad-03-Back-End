@@ -9,6 +9,7 @@ public interface RepresentanteService {
     RepresentanteResponseDTO criar(RepresentanteCreateDTO dto);
     List<RepresentanteResponseDTO> listar();
     RepresentanteResponseDTO buscarPorId(Long id);
+    List<RepresentanteResponseDTO> buscarPorOrgaoId(Long idOrgao);
 
     String deletar(Long id);
 }
