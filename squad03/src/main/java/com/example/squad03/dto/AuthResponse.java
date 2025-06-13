@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,4 +15,7 @@ public class AuthResponse {
 
     @Schema(description = "Token de autenticação JWT.", example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...") // Schema for the token field
     private String token;
+
+    @Schema(description = "Roles/autoridades do usuário.", example = "[\"ROLE_USER\",\"ROLE_ADMIN\"]")
+    private Set<String> roles;
 }

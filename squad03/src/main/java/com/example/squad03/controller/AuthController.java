@@ -15,12 +15,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/auth")
@@ -42,38 +46,48 @@ public class AuthController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @PostMapping("/register")
-    @Operation(summary = "Registrar novo usuário", description = "Cria uma nova conta de usuário com email e senha.")
-    @ApiResponse(responseCode = "200", description = "Usuário registrado com sucesso",
-            content = @Content(schema = @Schema(implementation = String.class))) // Successful response
-    @ApiResponse(responseCode = "400", description = "Email já cadastrado",
-            content = @Content(schema = @Schema(implementation = String.class))) // Bad request response
-    public ResponseEntity<?> register(@RequestBody AuthRequest request) {
-        if (usuarioRepository.existsByEmail(request.getEmail())) {
-            return ResponseEntity.badRequest().body("Email já cadastrado");
-        }
-
-        Usuario user = new Usuario();
-        user.setEmail(request.getEmail());
-        user.setSenha(passwordEncoder.encode(request.getSenha()));
-        usuarioRepository.save(user);
-
-        return ResponseEntity.ok("Usuário registrado com sucesso");
-    }
+//    @PostMapping("/register")
+//    @Operation(summary = "Registrar novo usuário", description = "Cria uma nova conta de usuário com email e senha.")
+//    @ApiResponse(responseCode = "200", description = "Usuário registrado com sucesso",
+//            content = @Content(schema = @Schema(implementation = String.class))) // Successful response
+//    @ApiResponse(responseCode = "400", description = "Email já cadastrado",
+//            content = @Content(schema = @Schema(implementation = String.class))) // Bad request response
+//    public ResponseEntity<?> register(@RequestBody AuthRequest request) {
+//        if (usuarioRepository.existsByEmail(request.getEmail())) {
+//            return ResponseEntity.badRequest().body("Email já cadastrado");
+//        }
+//
+//        Usuario user = new Usuario();
+//        user.setEmail(request.getEmail());
+//        user.setSenha(passwordEncoder.encode(request.getSenha()));
+//        usuarioRepository.save(user);
+//
+//        return ResponseEntity.ok("Usuário registrado com sucesso");
+//    }
 
     @PostMapping("/login")
     @Operation(summary = "Login de usuário", description = "Autentica um usuário e retorna um token JWT.")
     @ApiResponse(responseCode = "200", description = "Login bem-sucedido, retorna token JWT",
             content = @Content(schema = @Schema(implementation = AuthResponse.class))) // Successful response with AuthResponse schema
     @ApiResponse(responseCode = "401", description = "Credenciais inválidas") // Unauthorized response
-    public ResponseEntity<?> login(@RequestBody AuthRequest request) {
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
+        // 1) autentica as credenciais
         authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getSenha())
         );
 
+        // 2) carrega detalhes do usuário (já contém as authorities)
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
+
+        // 3) gera o JWT
         String jwt = jwtUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new AuthResponse(jwt));
+        // 4) extrai as roles como strings
+        Set<String> roles = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toSet());
+
+        // 5) retorna token + roles
+        return ResponseEntity.ok(new AuthResponse(jwt, roles));
     }
 }
