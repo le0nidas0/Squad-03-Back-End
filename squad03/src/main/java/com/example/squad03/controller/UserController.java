@@ -14,10 +14,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -95,9 +97,16 @@ public class UserController {
     @GetMapping("/me")
     public UserProfileResponse getProfile(Authentication auth) {
         String email = auth.getName();
+
         Usuario u = userService.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        return new UserProfileResponse(u.getId(), u.getEmail(), u.getNome());
+
+        Set<String> roles = auth.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toSet());
+
+        return new UserProfileResponse(u.getId(), u.getEmail(), u.getNome(), roles);
     }
 
     @Operation(summary = "Atualiza o perfil do usuário autenticado", description = "Permite que o usuário autenticado atualize seu perfil.")

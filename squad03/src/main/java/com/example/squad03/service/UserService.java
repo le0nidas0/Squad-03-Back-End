@@ -14,6 +14,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -86,8 +88,16 @@ public class UserService {
         if (req.getSenha() != null && !req.getSenha().isBlank()) {
             u.setSenha(encoder.encode(req.getSenha()));
         }
+
         Usuario salvo = userRepo.save(u);
-        return new UserProfileResponse(salvo.getId(), salvo.getEmail(), salvo.getNome());
+
+        // Mapeando as roles para String
+        Set<String> roles = salvo.getRoles()
+                .stream()
+                .map(Role::getName)
+                .collect(Collectors.toSet());
+
+        return new UserProfileResponse(salvo.getId(), salvo.getEmail(), salvo.getNome(), roles);
     }
 
     public Usuario removeRole(Long userId, String roleName) {
