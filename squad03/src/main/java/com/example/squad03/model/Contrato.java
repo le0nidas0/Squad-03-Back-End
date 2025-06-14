@@ -26,7 +26,7 @@ public class Contrato {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idContrato;
 
-    @Column(name = "numero_contrato", unique = true, length = 50)
+    @Column(name = "numero_contrato", length = 50)
     private String numeroContrato;
 
     @Column(name = "descricao", columnDefinition = "TEXT")

@@ -39,6 +39,7 @@ public class DataLoader implements CommandLineRunner {
         boolean adminExists = userRepo.existsByRoles_Name("ROLE_ADMIN");
         if (!adminExists) {
             Usuario admin = new Usuario();
+            admin.setNome("Administrador");
             admin.setEmail("admin@admin.com");
             admin.setSenha(encoder.encode("admin123"));
             admin.getRoles().addAll(Set.of(adminRole, userRole));
