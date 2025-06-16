@@ -18,6 +18,7 @@ public class CorsConfig {
         config.setAllowedOrigins(List.of(
                 "https://squad-03-front-end-production.up.railway.app",
                 "https://gerenciador-contratos-getinfo.up.railway.app",
+                "https://squad-03-front-end.onrender.com/",
                 "http://localhost:3000"
         ));
 
