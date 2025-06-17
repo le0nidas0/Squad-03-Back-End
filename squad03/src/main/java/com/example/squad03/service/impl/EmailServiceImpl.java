@@ -36,4 +36,18 @@ public class EmailServiceImpl implements EmailService {
 
         mailSender.send(mensagem);
     }
+
+    @Override
+    public void enviarEmailBoasVindas(String email, String nome) {
+        SimpleMailMessage mensagem = new SimpleMailMessage();
+        mensagem.setTo(email);
+        mensagem.setSubject("Bem-vindo ao Gerenciador de Cotnratos - GetInfo");
+        mensagem.setText("Olá " + nome + ",\n\n" +
+                "Você foi adicionado ao nosso sistema! Estamos felizes em tê-lo conosco.\n" +
+                "Explore nossos recursos e comece a gerenciar seus contratos de forma eficiente.\n" +
+                "Faça login agora mesmo! https://squad-03-front-end.onrender.com/\n\n" +
+                "Atenciosamente,\nEquipe GetInfo");
+
+        mailSender.send(mensagem);
+    }
 }
