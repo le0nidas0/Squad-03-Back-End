@@ -7,6 +7,7 @@ import com.example.squad03.model.Role;
 import com.example.squad03.model.Usuario;
 import com.example.squad03.repository.RoleRepository;
 import com.example.squad03.repository.UsuarioRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,11 +23,13 @@ public class UserService {
     private final UsuarioRepository userRepo;
     private final RoleRepository roleRepo;
     private final PasswordEncoder encoder;
+    private final EmailService emailService;
 
-    public UserService(UsuarioRepository userRepo, RoleRepository roleRepo, PasswordEncoder enc) {
+    public UserService(UsuarioRepository userRepo, RoleRepository roleRepo, PasswordEncoder enc, EmailService emailService) {
         this.userRepo = userRepo;
         this.roleRepo = roleRepo;
         this.encoder = enc;
+        this.emailService = emailService;
     }
 
     public Optional<Usuario> findByEmail(String email) {
@@ -50,6 +53,14 @@ public class UserService {
         Role userRole = roleRepo.findByName("ROLE_USER")
                 .orElseThrow(() -> new RuntimeException("Role USER não encontrada"));
         u.getRoles().add(userRole);
+
+        // envia email de boas-vindas para o usuário adicinado
+        if (u.getEmail() != null && !u.getEmail().isBlank()) {
+            emailService.enviarEmailBoasVindas(
+                    u.getEmail(),
+                    u.getNome());
+        }
+
         return userRepo.save(u);
     }
 
